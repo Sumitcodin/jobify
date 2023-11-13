@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <!--
+      <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+     -->
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <script src="app.js" type="module"></script>
+  </head>
+  <body>
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script> -->
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a href="#search">
+          <div id="logo-box">
+            <span class="material-symbols-outlined">
+              work
+            </span>
+            <span id="title-text">Online Job Portal</span>
+          </div>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+            <a class="nav-link" href="#">Saved Jobs</a>
+            <a class="nav-link" href="#">Applied Jobs</a>
+          </div>
+        </div>
+        <div id="login">
+          <div class="btn-group">
+            <img
+              id="profile-pic"
+              class="rounded-circle"
+              alt="profile pic"
+              type="button"
+              class="btn btn-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            />
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button class="dropdown-item" type="button">
+                  View Profile
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">
+                  Edit Profile
+                </button>
+              </li>
+            </ul>
+          </div>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            id="logInButton"
+          >
+            Log In/Sign Up
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            id="logOutButton"
+          >
+            Log out
+          </button>
+        </div>
+        <button
+          id="navToggler"
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+    <div id="liveAlertPlaceholder"></div>
+    <section id="search">
+      <div id="search-box">
+        <div>
+          <div class="input-group mb-3 form-inputs">
+            <!-- <span class="input-group-text">Job Title</span> -->
+            <input
+              type="text"
+              aria-label="First name"
+              class="form-control"
+              placeholder="Job Title"
+              class="form-inputs"
+            />
+            <!-- <span class="input-group-text">Company</span> -->
+            <input
+              type="text"
+              aria-label="Last name"
+              class="form-control"
+              placeholder="Company"
+              class="form-inputs"
+            />
+            <!-- <span class="input-group-text">Exp.</span> -->
+            <select
+              class="form-select"
+              id="inputGroupSelect01"
+              class="form-inputs"
+            >
+              <option value="" disabled selected>Experience</option>
+            </select>
+            <a href="#jobs-lists">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+              >
+                Search
+              </button>
+            </a>
+          </div>
+        </div>
+
+        <section id="resume-button-wrapper">
+          <button type="button" class="btn btn-outline-secondary">
+            <span class="material-symbols-outlined">
+              cloud_upload
+            </span>
+            &nbsp; Upload Resume
+          </button>
+        </section>
+      </div>
+      <div id="search-title">Jobs that match your<i>skills</i>.</div>
+    </section>
+    <div id="jobs-lists">
+      <div id="job-list">
+        <!-- <div class="res-count">Showing 5 job postings from search..</div> -->
+        <!-- <div class="job">
+          <div class="job-head">
+            <div id="job-content">
+              <div id="info">
+                <div id="jobTitle">
+                  This is the job title
+                </div>
+                <div id="companyName">
+                  <span>
+                    Company Name
+                  </span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined">
+                bookmark
+              </span>
+            </div>
+          </div>
+          <div class="job-body">
+            <div class="body-elements-wrap" id="period-wrap">
+              <span class="material-symbols-outlined">
+                approval
+              </span>
+              <div>Period</div>
+            </div>
+            <div class="body-elements-wrap" id="location-wrap">
+              <span class="material-symbols-outlined">
+                location_on
+              </span>
+              <div>Location</div>
+            </div>
+            <div class="body-elements-wrap" id="exp-wrap">
+              <span class="material-symbols-outlined">
+                work_history
+              </span>
+              <div>Experience</div>
+            </div>
+            <div class="body-elements-wrap" id="ideas-wrap">
+              <span class="material-symbols-outlined">
+                lightbulb
+              </span>
+              <div id="ideas-list">
+                <span class="badge rounded-pill text-bg-light">tag1</span>
+                <span class="badge rounded-pill text-bg-light">tag2</span>
+                <span class="badge rounded-pill text-bg-light">tag3</span>
+                <span class="badge rounded-pill text-bg-light">tag4</span>
+                <span class="badge rounded-pill text-bg-light">tag</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-footer">
+            <div class="body-elements-wrap">
+              <span class="material-symbols-outlined">
+                schedule
+              </span>
+              <div id="timestamp">Timestamp</div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="job"></div>
+        <div class="job"></div>
+        <div class="job"></div> -->
+      </div>
+      <div id="job-desc">
+        <div id="desc-box">
+          <div id="desc-header">
+            <div id="desc-header-info">
+              <div id="desc-header-jobTitle">
+                This is the job title
+              </div>
+              <div id="desc-header-companyName">
+                <span>
+                  Company Name
+                </span>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                flex-grow: 0.2;
+              "
+            >
+              <span id="close-desc-fs" class="material-symbols-outlined">
+                close_fullscreen
+              </span>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                id="applyNowButton"
+              >
+                Apply Now
+              </button>
+            </div>
+          </div>
+          <!-- <div> -->
+          <ul class="nav nav-tabs desc-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#highlight"
+                >Highlights</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#jd">Job Description</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#more-info">More Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#rec-info">Recruiter's Information</a>
+            </li>
+          </ul>
+          <!-- </div> -->
+          <div id="desc-body">
+            <div class="desc-body-box" id="highlight">
+              Some Highlights regarding the Job
+            </div>
+            <div class="desc-body-box" id="jd">
+              Job Description
+            </div>
+            <div class="desc-body-box" id="more-info">
+              More Information regarding applying and job
+            </div>
+            <div class="desc-body-box" id="rec-info">
+              Recruiters Information
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
