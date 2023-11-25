@@ -1,0 +1,100 @@
+:root {
+    /** CSS DARK THEME PRIMARY COLORS */
+    --color-primary-100: #a3a2e0;
+    --color-primary-200: #adace4;
+    --color-primary-300: #b8b6e7;
+    --color-primary-400: #c2c0eb;
+    --color-primary-500: #cccaee;
+    --color-primary-600: #d6d5f2;
+
+
+    --color-surface-100: #191926;
+    --color-surface-200: #2e2e3a;
+    --color-surface-300: #454450;
+    --color-surface-400: #5d5c67;
+    --color-surface-500: #76757e;
+    --color-surface-600: #908f97;
+
+
+     /*
+     --color-primary-100: #272c33;
+     --color-primary-200: #3b4047;
+     --color-primary-300: #51555b;
+     --color-primary-400: #686b71;
+     --color-primary-500: #7f8287;
+     --color-primary-600: #979a9e;
+
+     --color-surface-100: #02122b;
+     --color-surface-200: #1d283f;
+     --color-surface-300: #363f55;
+     --color-surface-400: #50576b;
+     --color-surface-500: #6b7182;
+     --color-surface-600: #878b9a; */
+ 
+
+     --header-height: 50px;
+     --foooter-height: 50px;
+     --search-container-height: 100px;
+
+}
+
+body {
+    background-color: var(--color-primary-600);
+    color: var(--color-surface-100);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--color-surface-100) !important;
+        color: var(--color-primary-600) !important;
+
+    }
+}
+
+.flex-center {
+    display: flex !important;
+    justify-content: center !important;
+    justify-items: center !important;
+}
+
+
+*{
+    font-family: "Poppins", sans-serif;
+    font-size: 16px !important;
+
+}
+
+#jl::-webkit-scrollbar, #jd::-webkit-scrollbar
+ {
+     display: none;
+ }
+
+ .job-card{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid;
+    border-bottom-left-radius: 1%;
+    border-left: 1px solid var(--color-surface-300);
+    border-bottom: 1px solid var(--color-surface-300);
+
+
+ }
+
+ #jd{
+    border-left: 1px solid var(--color-surface-300);
+ }
+
+@media screen and (max-width : 960px ) {
+    #jd{
+        display: none !important;
+    }
+    #jl{
+        flex-grow: 1 !important;
+    }
+}
+ 

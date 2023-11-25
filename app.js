@@ -15,13 +15,13 @@
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "apikey",
-    authDomain: "authdomain",
-    databaseURL: "databaseurl",
-    projectId: "projecturl",
+    apiKey: "AIzaSyA_1GaZbo6ScKlmxYh8hyjJDLbT-CVOgkM",
+    authDomain: "online-job-portal-1b29a.firebaseapp.com",
+    databaseURL: "https://online-job-portal-1b29a-default-rtdb.asia-south1.firebasedatabase.app",
+    projectId: "online-job-portal-1b29a",
     storageBucket: "online-job-portal-1b29a.appspot.com",
-    messagingSenderId: "msgid",
-    appId: "appid"
+    messagingSenderId: "10071800677371",
+    appId: "1:100718677371:web:255b170e7c1dcd09419908"
   };
 
   // Initialize Firebase
@@ -132,6 +132,8 @@ const renderAllJobs = async() => {
     const jobsSnapshot = await getDocs(jobsCollection);
     const jobsList = jobsSnapshot.docs.map(doc => doc.data());
     console.log(jobsList)
+    let jobsListsDiv = document.getElementById('jobs-lists');
+    jobsListsDiv.style.display = 'flex';
     let jobListsDiv = document.getElementById('job-list');
     jobListsDiv.innerHTML = '';
     createJobCards(jobsList);
@@ -190,6 +192,7 @@ function onInit(){
                     type="button"
                     class="btn btn-secondary btn-sm"
                     id="applyNowButton"
+                    data-bs-toggle="modal" data-bs-target="#applyForm"
                   >
                     Apply Now
                   </button>
