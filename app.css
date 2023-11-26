@@ -64,7 +64,7 @@ body {
 
 }
 
-#jl::-webkit-scrollbar, #jd::-webkit-scrollbar
+#jl::-webkit-scrollbar, #jd::-webkit-scrollbar, .skills-container::-webkit-scrollbar
  {
      display: none;
  }
@@ -95,8 +95,6 @@ body {
     /* background-color: var(--color-surface-200); */
     /* display: block; */
     
-    transition: display 2s ease-in-out !important;
-
  }
 
  #jd{
@@ -109,8 +107,6 @@ body {
     background-color: var(--color-surface-200);
     border-left: 1px solid var(--color-surface-300);
 
-    transition: display 2s ease-in-out !important;
-
 
  }
 
@@ -119,6 +115,10 @@ body {
     border-bottom: 1px solid var(--color-surface-300);
  }
 
+ .skills-container{
+    max-width: 80%;
+    overflow-x: scroll;
+ }
 @media screen and (max-width : 825px ) {
     #jd{
         display: none ;
