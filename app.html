@@ -8,6 +8,7 @@
     <title>Jobify | Sumit Prakash</title>
     <link rel="stylesheet" href="app.css">
     <!-- <link rel="stylesheet" href="style.css" /> -->
+    <script src="script.js"  defer type="module"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
@@ -34,7 +35,9 @@
                 Jobify</a>
             <div class="btn-group">
                 <div style="display: flex; gap: 10px;">
-                    <button type="button" class="btn btn-secondary btn-sm">Sign up/ Login</button>
+                    <button type="button" class="btn btn-secondary btn-sm">Sign up <span class="material-symbols-outlined">
+                        wifi_1_bar
+                        </span> Login</button>
                     <img src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
                         style="height: 30px;
                         display: none;
@@ -90,20 +93,15 @@
     </section>
 
     <section id="jobs">
-        <div class="container-fluid flex flex-row align-items-start justify-content-start p-0"  style="
+        <div id="jobs-container" class="container-fluid flex flex-row align-items-start justify-content-start p-0"  style="
             /* background-color: var(--color-surface-200); */
             max-width: 960px;
             height: calc( 100dvh - calc( 50px + 100px + 50px ) );
             ">
 
-            <div id="jl" style="
-            height: inherit;
-            overflow-y: scroll;
-            width: max-content;
-            flex-grow: 0.4;
-            /* background-color: var(--color-surface-200); */
-            display: block;
-            ">
+            <div id="jl" 
+            data-ctx="sm"
+            >
 
             <div class="job-card flex flex-column pt-2 pb-2">
                 <div class="h-15 w-100 flex flex-row align-items-center justify-content-between p-2">
@@ -112,10 +110,10 @@
                     </span>
 
                     <div class=" flex align-items-center justify-content-between gap-4">
-                        <span class="material-symbols-outlined">
+                        <span role="button" data-ctx="expand_jd" id="expand_jd" class="material-symbols-outlined" data-ctx="lg">
                             expand_content
                             </span>
-                            <span class="material-symbols-outlined">
+                            <span role="button" class="material-symbols-outlined">
                                 bookmark
                                 </span>
                         <button type="button" class="btn btn-secondary btn-sm">Apply Now</button>
@@ -164,7 +162,11 @@
                         <span class="material-symbols-outlined">
                             track_changes
                             </span>
-                        <div class="dlex flex-column align-items-center justify-content-evenly">
+                        <div class="flex">
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
                             <span class="badge rounded-pill text-bg-dark">Skills</span>
                             <span class="badge rounded-pill text-bg-dark">Skills</span>
                             <span class="badge rounded-pill text-bg-dark">Skills</span>
@@ -207,15 +209,138 @@
             <div class="job-card">Quos odio repudiandae error voluptatibus.</div>
             <div class="job-card">Voluptatum magnam amet explicabo debitis?</div>
             </div>
-            <div id="jd"  style="
-            height: inherit;
-            overflow-y: scroll;
-            /* width: 50%; */
-            flex-grow: 1;
-            display: flex;
-            background-color: var(--color-surface-200);">
+            <div id="jd" data-ctx="lg" class="flex flex-column align-items-start">
+                <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card">
+                    <div class="flex flex-row h-15 w-100 p-3 justify-content-between">
+                        <span>
+                            Job Application Title
+                        </span>
+                        <span role="button" data-ctx="collapse_jd" id="collapse_jd" class="material-symbols-outlined">
+                            collapse_content
+                        </span>
+                    </div>
+                
+                    <div class="flex flex-row gap-1 justify-content-between align-items-center ps-3 pe-3 pb-3 w-100 ">
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                apartment
+                                </span>
+                            Company Name</span>
+                        <span class="material-symbols-outlined">
+                            more_horiz
+                        </span>
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                timeline
+                                </span>
+                            Full Time</span>
+                        <span class="material-symbols-outlined">
+                            more_horiz
+                        </span>
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                location_on
+                                </span>
+                            Location</span>
+                    </div>
+                    <div class="flex flex-row align-items-start h-15 w-100 ps-3 pe-3 gap-3">
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                schedule
+                                </span>
+                            Posted</span>
+                        <span>Timestamp</span>
+                    </div>
 
-The Job description
+                    <div class="flex flex-row w-50 h-auto p-3 gap-3">
+                        <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Save <span class="material-symbols-outlined">
+                            bookmark
+                            </span></button>
+                        <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Apply <span class="material-symbols-outlined">
+                            rocket_launch
+                            </span></button>
+
+                    </div>
+                </div>
+
+                <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card p-3">
+                    <span>Job Description</span>
+                    <p class="pt-3  flex-wrap">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem odit quis illum, deserunt reprehenderit ipsam libero! Dignissimos et aspernatur, omnis tempora voluptatum possimus qui cumque placeat vitae dolore facere fuga! Rerum dolorum, quidem tempore accusamus expedita sit, temporibus esse eveniet blanditiis aperiam deserunt delectus! Tempore illo sapiente officia voluptate laudantium.                    </p>
+                </div>
+
+                
+                <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card p-3">
+                
+                    <div>
+                        <span>
+                            Required Qualification
+                        </span>
+                        <ul class="ps-3 pt-2" style="list-style-type: disc !important;">
+                            <li>Lorem ipsum dolor sit amet.</li>
+                            <li>Quo dolorem laborum sit asperiores?</li>
+                            <li>Tenetur delectus deserunt quaerat eum.</li>
+                        </ul>
+                        <br>
+                        <span>
+                            Preferred Qualification
+                        </span>
+                        <ul class="ps-3 pt-2" style="list-style-type: disc !important;">
+                            <li>Lorem ipsum dolor sit amet.</li>
+                            <li>Quo dolorem laborum sit asperiores?</li>
+                            <li>Tenetur delectus deserunt quaerat eum.</li>
+                        </ul>
+                        
+                    </div>
+                
+                </div>
+
+                <div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+                    <div class="flex flex-row gap-2 align-items-center justify-content-center">
+                        <span class="material-symbols-outlined">
+                            track_changes
+                            </span>
+                        <div class="flex">
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+
+                        </div>
+                    </div>
+                   
+</div>
+
+<div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+    <span class="pb-3">
+        About the Company
+    </span>
+
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo quidem enim cumque consequatur quos cum saepe omnis repellendus et, possimus commodi eius, accusamus fugiat maiores?</p>
+</div>
+
+<div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+    <div class="flex flex-row align-items-center justify-content-center gap-3">
+        <span class="material-symbols-outlined">
+            lightbulb
+            </span>
+
+
+            <span>
+                <span>Job ID</span>
+                JOB0000ID
+            </span>
+    </div>
+    </div>
+
+
+            
             </div>
         </div>
     </section>

@@ -70,7 +70,8 @@ body {
  }
 
  .job-card{
-    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
     height: 300px;
     text-align: center;
     display: flex;
@@ -78,23 +79,54 @@ body {
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid;
-    border-bottom-left-radius: 1%;
+    border-bottom-left-radius: 2%;
     border-left: 1px solid var(--color-surface-300);
     border-bottom: 1px solid var(--color-surface-300);
 
 
  }
 
- #jd{
-    border-left: 1px solid var(--color-surface-300);
+ #jl{
+    
+    height: inherit;
+    overflow-y: scroll;
+    width: 40%;
+    flex-grow: 0.4;
+    /* background-color: var(--color-surface-200); */
+    /* display: block; */
+    
+    transition: display 2s ease-in-out !important;
+
  }
 
-@media screen and (max-width : 960px ) {
+ #jd{
+    
+    /* display: block; */
+    height: inherit;
+    overflow-y: scroll;
+    width: 40%;
+    flex-grow: 0.6;
+    background-color: var(--color-surface-200);
+    border-left: 1px solid var(--color-surface-300);
+
+    transition: display 2s ease-in-out !important;
+
+
+ }
+
+ .desc-card{
+    border-bottom-left-radius: 2%;
+    border-bottom: 1px solid var(--color-surface-300);
+ }
+
+@media screen and (max-width : 825px ) {
     #jd{
-        display: none !important;
+        display: none ;
     }
     #jl{
         flex-grow: 1 !important;
     }
 }
+
+
  
