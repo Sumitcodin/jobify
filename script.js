@@ -52,7 +52,9 @@ var state = {
         isViaInitial: true,
         data: [],
         searchQp: ''
-    }
+    },
+
+    _query: ''
 }
 
 // Object.defineProperty(state, "_jobViewState", {
@@ -111,8 +113,84 @@ const renderJobView = () => {
 
 }
 
+
+
+const searchInputChange = (event) => {
+    state._query = event.target.value;    
+}
+
+const fetchSearchByQueryJobsData = async() => {
+    
+
+    // if((state._jobs.isViaSearch === true && state._jobs?.data?.length === 0) || state._jobs.isViaSearch == false){
+        console.log('state data for search jobs is empty, fetching from db')
+        let allJobsList = [];
+        let searchedJobsList = [];
+
+        let _allJobsList = localStorage.getItem('_search_jobs_raw_data');
+        if(_allJobsList != null){
+            console.log('fetched master search data from cache hit')
+            allJobsList = JSON.parse(_allJobsList)
+        }else{
+            console.log('fetched master search data from db')
+            const jobsCollection = collection(database, 'jobs');
+            // const q = query(jobsCollection, where('isFeatured', '==', true))
+            const querySnapshot = await getDocs(jobsCollection);
+            querySnapshot.forEach((doc) => {
+                if(doc)
+                allJobsList.push(
+                    {id: doc.id, ...doc.data()})
+            })
+            if(allJobsList.length > 0)
+            localStorage.setItem("_search_jobs_raw_data", JSON.stringify(allJobsList))
+        }
+
+        console.log(allJobsList)
+        allJobsList.forEach((job) => {
+            let skills = job.skillTags;
+            skills = skills.map((value) => {return value.toLowerCase()})
+            if(job.jobName.toString().toLowerCase().includes(state._query.toLowerCase()) 
+                || skills.includes(state._query.toLowerCase()) 
+                || job.company.toString().toLowerCase().includes(state._query.toLowerCase())
+                || job.location.toString().toLowerCase().includes(state._query.toLowerCase())
+            ){
+                searchedJobsList.push(job)
+            }
+        })
+
+        
+        let _jobs = state._jobs;
+        _jobs.isViaSearch = true;
+        _jobs.isViaInitial = false;
+        _jobs.data = searchedJobsList;
+
+        setJobsState(() => {
+            state._jobs = _jobs;
+        })
+        localStorage.setItem('jobs', JSON.stringify(_jobs))
+
+    // }
+    // else if(state._jobs.isViaSearch === true && state._jobs?.data?.length > 0){
+    //     console.log('state data for search jobs is retreived from cache hit')
+    //     let _jobs = state._jobs;
+    //     _jobs.isViaSearch = true;
+    //     _jobs.isViaInitial = false
+    //     setJobsState(() => {
+    //         state._jobs = _jobs
+    //     })
+    // }
+
+    console.log(state)
+
+}
+
+
 $('expand_jd')?.addEventListener('click', toggleJobView);
 $('collapse_jd')?.addEventListener('click', toggleJobView);
+$('searchInput').addEventListener('keyup', searchInputChange);
+$('searchBtn')?.addEventListener('click', fetchSearchByQueryJobsData);
+
+searchBtn
 
 
 const getJobViewStateBasedOnViewPortBp = (breakPoint) => {
@@ -151,11 +229,12 @@ const setJobViewState = () => {
 
 }
 
+
 const fetchInitialJobsData = async() => {
 
     if(state._jobs?.data?.length === 0){
 
-        console.log('state data for jos is empty, fetching from db')
+        console.log('state data for jobs is empty, fetching from db')
 
         let featuredJobsList = [];
         const jobsCollection = collection(database, 'jobs');
@@ -181,7 +260,13 @@ const fetchInitialJobsData = async() => {
         setJobsState(() => {})
     }
 
+    $('searchInput').value = '';
+
 }
+
+$('homeBtnNav').addEventListener('click', fetchInitialJobsData);
+$('homeBtnMenu').addEventListener('click', fetchInitialJobsData);
+
 
 const onInit = () => {
 
@@ -208,7 +293,7 @@ const userSignIn = async() => {
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user
-        // console.log(user)
+        createToast('login', 'Login', new Date(), user.displayName + ' logged in successfully!' );
     }).catch((error)=> {
         const errorMsg = error.message;
         alert(errorMsg)
@@ -217,7 +302,7 @@ const userSignIn = async() => {
 
   const userSignOut = async() => {
     signOut(auth).then(() => {
-        alert("Successfully logged Out !", 'secondary')
+        createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!' );
     }).catch((error) => {
         const errorMsg = error.message;
         alert(errorMsg)
@@ -225,6 +310,7 @@ const userSignIn = async() => {
   }
 
   onAuthStateChanged(auth, (user) => {
+    console.log(user)
       let newAuthState = {};
     if(user){
         newAuthState.isAuth = true;
@@ -260,18 +346,17 @@ const userSignIn = async() => {
         $('profilePhoto').style.display = 'inline';
         $('profilePhoto').src = state._user.photoURL;
 
+
+
     }else{
         $('loginBtn').style.display = 'inline';
         $('logoutBtn').style.display = 'none';
         $('profilePhoto').style.display = 'none';
         $('profilePhoto').src = '';
+
+
     }
     
-    
-    const toastLiveExample = $('liveToast')
-    const toast = new bootstrap.Toast(toastLiveExample)
-    toast.show();
-
   }
   const setAuthState = (callback) => {
     callback();
@@ -567,3 +652,25 @@ const userSignIn = async() => {
   $('logoutBtn').addEventListener('click', userSignOut)
 
 
+
+  const createToast = (logo, header, duration, msg) => {
+
+    const toastLiveExample = $('liveToast')
+    toastLiveExample.innerHTML = `
+        <div class="toast-header flex gap-2">
+            <span class="material-symbols-outlined">
+            ${logo}
+            </span>
+            <strong class="me-auto">${header}</strong>
+            <small>${getMomentByDate(duration.getTime())}</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            ${msg}
+        </div>
+    `
+    console.log('toastLiveExample', toastLiveExample)
+    const toast = new bootstrap.Toast(toastLiveExample)
+    toast.show();
+
+  }
