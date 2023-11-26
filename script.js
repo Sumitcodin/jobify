@@ -82,6 +82,9 @@ const toggleJobView = (ctx) => {
             state._jobViewState = newJobViewState;
         }
 
+        let dataJobId = ctx.srcElement.attributes['data-job-id'].nodeValue;
+        renderJobDesc(dataJobId)
+
     }
     else if(currentCtx === 'collapse_jd'){
         if(state._jobViewState.viewPortBp === 'sm'){
@@ -158,7 +161,11 @@ const fetchSearchByQueryJobsData = async() => {
             }
         })
 
-        
+        if(searchedJobsList.length === 0){
+            $('jd').innerHTML = '';
+            createToast('feedback', 'Result', new Date(), 'No Data found for the search Query '+ state._query, false)
+        }
+
         let _jobs = state._jobs;
         _jobs.isViaSearch = true;
         _jobs.isViaInitial = false;
@@ -293,7 +300,7 @@ const userSignIn = async() => {
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user
-        createToast('login', 'Login', new Date(), user.displayName + ' logged in successfully!' );
+        createToast('login', 'Login', new Date(), user.displayName + ' logged in successfully!', true );
     }).catch((error)=> {
         const errorMsg = error.message;
         alert(errorMsg)
@@ -302,7 +309,7 @@ const userSignIn = async() => {
 
   const userSignOut = async() => {
     signOut(auth).then(() => {
-        createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!' );
+        createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!', true );
     }).catch((error) => {
         const errorMsg = error.message;
         alert(errorMsg)
@@ -310,7 +317,7 @@ const userSignIn = async() => {
   }
 
   onAuthStateChanged(auth, (user) => {
-    console.log(user)
+    // console.log(user)
       let newAuthState = {};
     if(user){
         newAuthState.isAuth = true;
@@ -536,6 +543,7 @@ const userSignIn = async() => {
   }
 
   const renderJobsList = () => {
+
     console.log("render Jobs called")
     let jl = $('jl');
     jl.innerHTML = '';
@@ -549,7 +557,7 @@ const userSignIn = async() => {
                         ${job.jobName}
                     </span>
                     <div class=" flex align-items-center justify-content-between gap-4">
-                        <span role="button" data-ctx="expand_jd" id="expand_jd" class="material-symbols-outlined" data-ctx="lg">
+                        <span role="button" data-ctx="expand_jd" id="expand_jd" class="material-symbols-outlined" data-ctx="lg" data-job-id=${job.id}>
                             expand_content
                             </span>
                             <span role="button" class="material-symbols-outlined">
@@ -638,6 +646,19 @@ const userSignIn = async() => {
         $('collapse_jd')?.addEventListener('click', toggleJobView);
 
         renderJobDesc(state._jobs.data[0].id)
+
+        try {
+            const btns = document.querySelectorAll('[data-bs-dismiss]');
+            btns.forEach((btn) => {
+                if(btn.attributes["data-bs-dismiss"].value === 'toast'){
+                    btn.click()
+                }
+            })
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
     }
 
 
@@ -653,7 +674,7 @@ const userSignIn = async() => {
 
 
 
-  const createToast = (logo, header, duration, msg) => {
+  const createToast = (logo, header, duration, msg, autoHide) => {
 
     const toastLiveExample = $('liveToast')
     toastLiveExample.innerHTML = `
@@ -663,13 +684,13 @@ const userSignIn = async() => {
             </span>
             <strong class="me-auto">${header}</strong>
             <small>${getMomentByDate(duration.getTime())}</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button"  class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
             ${msg}
         </div>
     `
-    console.log('toastLiveExample', toastLiveExample)
+    toastLiveExample.dataset.bsAutohide =  autoHide !== null ? autoHide : true
     const toast = new bootstrap.Toast(toastLiveExample)
     toast.show();
 

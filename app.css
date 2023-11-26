@@ -104,8 +104,10 @@ body {
     overflow-y: scroll;
     width: 40%;
     flex-grow: 0.6;
-    background-color: var(--color-surface-200);
-    border-left: 1px solid var(--color-surface-300);
+    /* background-color: var(--color-surface-200); */
+    /* border-left: 1px solid var(--color-surface-300);
+    border-right: 1px solid var(--color-surface-300); */
+
 
 
  }
@@ -113,6 +115,8 @@ body {
  .desc-card{
     border-bottom-left-radius: 2%;
     border-bottom: 1px solid var(--color-surface-300);
+        border-left: 1px solid var(--color-surface-300);
+    border-right: 1px solid var(--color-surface-300);
  }
 
  .skills-container{
