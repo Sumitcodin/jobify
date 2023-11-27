@@ -5,7 +5,7 @@
 
   import { getDatabase, ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
-  import { getFirestore, collection, query, where, doc, getDocs} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+  import { getFirestore, collection, query, where, doc, getDocs, setDoc, getDoc, addDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA_1GaZbo6ScKlmxYh8hyjJDLbT-CVOgkM",
@@ -44,7 +44,8 @@ var state = {
     _user:{
         name: '',
         photoURL: '',
-        email: ''
+        email: '',
+        _data : {}
     },
 
     _jobs:{
@@ -123,10 +124,13 @@ const searchInputChange = (event) => {
 }
 
 const fetchSearchByQueryJobsData = async() => {
-    
+
+
+// await fetck();
+
 
     // if((state._jobs.isViaSearch === true && state._jobs?.data?.length === 0) || state._jobs.isViaSearch == false){
-        console.log('state data for search jobs is empty, fetching from db')
+        // console.log('state data for search jobs is empty, fetching from db')
         let allJobsList = [];
         let searchedJobsList = [];
 
@@ -139,6 +143,19 @@ const fetchSearchByQueryJobsData = async() => {
             const jobsCollection = collection(database, 'jobs');
             // const q = query(jobsCollection, where('isFeatured', '==', true))
             const querySnapshot = await getDocs(jobsCollection);
+
+            // try to unsub from the snapshot listener
+            // const unsub = onSnapshot(collection(database, 'jobs'), (doc) => {
+            //     console.log(doc)
+            //     if(doc)
+            //     allJobsList.push(
+            //         {id: doc.id, ...doc.data()})
+            // })
+
+
+            // unsub();
+
+
             querySnapshot.forEach((doc) => {
                 if(doc)
                 allJobsList.push(
@@ -236,8 +253,31 @@ const setJobViewState = () => {
 
 }
 
+const fetck = async() => {
+let fetchedUser = {}
+    const usersCollection = collection(database, collectionNameForUsersDb, state._user.email);
+        const querySnapshot = await getDocs(usersCollection);
+        querySnapshot.forEach((doc) => {
+            if(doc){
+                console.log('fetched user data related to jobs', doc)
+                fetchedUser = {id: doc.id, ...doc.data()}
+                state._user._data = fetchedUser
+            }
+        })
+    
+    // const unsub = onSnapshot(doc(database, collectionNameForUsersDb, state._user.email), (doc) => {
+    //     fetchedUser = { id: doc.id, ...doc.data()};
+    //     state._user._data = fetchedUser
+    // })
+    // unsub();
+
+    }
 
 const fetchInitialJobsData = async() => {
+
+
+
+// await fetck();
 
     if(state._jobs?.data?.length === 0){
 
@@ -252,15 +292,51 @@ const fetchInitialJobsData = async() => {
             featuredJobsList.push(
                 {id: doc.id, ...doc.data()})
         })
-
          let _jobs = state._jobs;
         _jobs.data = featuredJobsList;
-
         setJobsState(()=> {
             state._jobs = _jobs
         })
 
         localStorage.setItem('jobs', JSON.stringify(_jobs))
+
+
+        // const addRef = await addDoc(collection(database, 'jobs'), {
+        //     "aboutCompany": "Amazon drives progress. Our firms around the world help clients become leaders wherever they choose to compete. Amazon invests in outstanding people of diverse talents and backgrounds and empowers them to achieve more than they could elsewhere. Our work combines advice with action and integrity. We believe that when our clients and society are stronger, so are we.  Amazon refers to one or more of Amazon Touche Tohmatsu Limited (“DTTL”), its global network of member firms, and their related entities. DTTL (also referred to as “Amazon Global”) and each of its member firms are legally separate and independent entities. DTTL does not provide services to clients. Please see www.Amazon.com/about to learn more.",
+        //     "expMax": 3,
+        //     "jobDescription": "Independently develops error free code with high quality validation of applications guides other developers and assists Lead 1 – Software Engineering",
+        //     "location": "Pune",
+        //     "preferredQual": [
+        //         "Masters Degree with any recognized Institution.",
+        //         "Working experience in any Intership or a full time position.",
+        //         "Expertise in Spring Boot along with latest java version."
+        //     ],
+        //     "postingDate": {
+        //         "seconds": 1699023790,
+        //         "nanoseconds": 596000000
+        //     },
+        //     "isFeatured": true,
+        //     "length": "Full time",
+        //     "expMin": 0,
+        //     "company": "Amazon",
+        //     "jobName": "Application Architect",
+        //     "skillTags": [
+        //         "AWS",
+        //         "Lamda",
+        //         "Java",
+        //         "Microservices",
+        //         "Cloud",
+        //         "Spring Boot"
+        //     ],
+        //     "requiredQual": [
+        //         "Bachelors Degree from a recognnized university with minimum 70% marks.",
+        //         "Sound knowledge in any Object Oriented Programming Language",
+        //         "Hands on working experience with real life usecases."
+        //     ],
+        //     "jobId": 1
+        // });
+
+        // console.log(addRef.id)
 
     }else{
         console.log('state data for jos is retreived from cache hit')
@@ -275,24 +351,107 @@ $('homeBtnNav').addEventListener('click', fetchInitialJobsData);
 $('homeBtnMenu').addEventListener('click', fetchInitialJobsData);
 
 
-const onInit = () => {
+const onInit = async() => {
 
     let _jobs_cache = localStorage.getItem('jobs')
     if(_jobs_cache !== null){
         state._jobs.data = JSON.parse(_jobs_cache).data;
     }
 
+    await fetck();
+
      setJobViewState();
      fetchInitialJobsData();
     
 }
 
-window.onload = () => {
-     onInit();
+window.onload = async() => {
+     await onInit();
 }
 
 window.onresize = () => {
     setJobViewState();
+}
+
+const collectionNameForUsersDb = 'users';
+const updatedSavedJobsByUser = async(email, jobId) => {
+
+    const usersCollection = doc(database, collectionNameForUsersDb, email);
+    await updateDoc(usersCollection, {
+        savedJobsIds: arrayUnion(jobId)
+    })
+    createToast('bookmark', 'Save Job', new Date(), 'This job has been saved for you!', true)
+
+    // let _userData = state._user._data;
+    // console.log(state)
+    // _userData.savedJobsIds.push(jobId)
+    await setAndFetchUserDetails(email)
+    setJobsState(() => {
+    })  
+
+}
+
+const updatedAppliedJobsByUser = async(email, jobId) => {
+
+    const usersCollection = doc(database, collectionNameForUsersDb, email);
+    await updateDoc(usersCollection, {
+        appliedJobsIds: arrayUnion(jobId)
+    })
+    createToast('rocket_launch', 'Apply Job', new Date(), 'You have now applied to this Job Posting!', true)
+
+    // let _userData = state._user._data;
+    // console.log(_userData)
+    // _userData.appliedJobsIds.push(jobId)
+    await setAndFetchUserDetails(email)
+    setJobsState(() => {
+    })  
+
+}
+
+
+
+
+
+const setAndFetchUserDetails = async(email) => {
+
+    let fetchedUser = {};
+        const usersCollection = doc(database, collectionNameForUsersDb, email);
+        // const q = query(jobsCollection, where('isFeatured', '==', true))
+        const querySnapshot = await getDoc(usersCollection);
+        if(querySnapshot.exists()){
+            fetchedUser = {id: querySnapshot.id, ...querySnapshot.data()}
+            console.log('user found in collection with ', email, '\n', querySnapshot )
+        }else{
+            console.log('no user found in collection with ', email)
+            console.log('creating a new entry in users collection with ', email)
+            await setDoc(doc(database, collectionNameForUsersDb, email), {
+                name: state._user.name,
+                appliedJobsIds: [],
+                savedJobsIds: []
+            })
+
+        const usersCollection = doc(database, collectionNameForUsersDb, email);
+        const querySnapshot = await getDoc(usersCollection);
+        if(querySnapshot.exists()){
+            console.log('fetched the newly created user in the collection')
+            fetchedUser = {id: querySnapshot.id, ...querySnapshot.data()}
+        }else{
+            console.log('newly created user not fetched from the collection')
+        }
+
+        }
+        // console.log(querySnapshot.data())
+        // querySnapshot.forEach((doc) => {
+            // if(doc)
+            // fetchedUser =
+            //     {id: doc.id, ...doc.data()}
+        // })
+       
+        state._user._data = fetchedUser;
+
+        console.log('after setAndFetchUserDetails()',state)
+
+
 }
 
 const userSignIn = async() => {
@@ -301,23 +460,23 @@ const userSignIn = async() => {
     .then((result) => {
         const user = result.user
         createToast('login', 'Login', new Date(), user.displayName + ' logged in successfully!', true );
+        setAndFetchUserDetails(user.email)
     }).catch((error)=> {
-        const errorMsg = error.message;
-        alert(errorMsg)
+        createToast('login', 'Login', new Date(), error.message, true)
     })
   }
 
   const userSignOut = async() => {
     signOut(auth).then(() => {
         createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!', true );
+        localStorage.clear();
     }).catch((error) => {
-        const errorMsg = error.message;
-        alert(errorMsg)
+        createToast('logout', 'Logout', new Date(), error.message, true)
     }) 
   }
 
   onAuthStateChanged(auth, (user) => {
-    // console.log(user)
+    console.log('onAuthStateChanged called')
       let newAuthState = {};
     if(user){
         newAuthState.isAuth = true;
@@ -377,7 +536,10 @@ const userSignIn = async() => {
 
   const renderJobDesc = (jobId) => {
 
+    console.log('renderJobDesc() called for ', jobId)
     let jobsData = state._jobs.data;
+    if(state._userAuthState.isAuth)
+        jobsData = modifyJobsDataWithUserReference(jobsData)
     var _job = [];
     if(jobsData.length > 0) {
         _job = jobsData.filter((__job) => {
@@ -433,11 +595,11 @@ const userSignIn = async() => {
             </div>
 
             <div class="flex flex-row w-50 h-auto p-3 gap-3">
-                <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Save <span class="material-symbols-outlined">
-                    bookmark
+                <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2" data-bookmark="bookmark" data-job-id=${job.id} data-is-saved=${state._userAuthState.isAuth === true ? job.isSaved : false} >${job.isSaved ? 'Saved' : 'Save'} <span class="material-symbols-outlined">
+                    ${job.isSaved ? 'bookmark_add' : 'bookmark'}
                     </span></button>
-                <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Apply <span class="material-symbols-outlined">
-                    rocket_launch
+                <button type="button"  data-apply="apply" data-job-id=${job.id} data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false} class="btn btn-secondary btn-sm flex align-items-center gap-2">${job.isApplied ? 'Applied' : 'Apply'} <span class="material-symbols-outlined">
+                ${job.isApplied ? 'new_releases' : 'rocket_launch'}
                     </span></button>
 
             </div>
@@ -540,16 +702,66 @@ const userSignIn = async() => {
         }
     }
 
+    addEventListnerToSaveAndApplyBtn();
+
+  }
+
+  const modifyJobsDataWithUserReference = (jobsData) => {
+
+      let _decoratedDataList = [];
+
+       console.log('modifyJobsDataWithUserReference called', state)
+       const userSavedJobs = state._user._data?.savedJobsIds;
+       const userAppliedJobs = state._user._data?.appliedJobsIds;
+       if(state._userAuthState.isAuth) {
+           jobsData.forEach((job) => {
+                   job = { isSaved: userSavedJobs.includes(job.id), ...job}
+                   job = { isApplied: userAppliedJobs.includes(job.id), ...job}
+                   if(!job.isApplied){
+                       _decoratedDataList.push(job);
+                   }
+                   console.log(job)
+           })
+       }
+    return _decoratedDataList
+
+  }
+
+
+  const bookmarkJob = (event) => {
+    if(!state._userAuthState.isAuth){
+        createToast('bookmark', 'Save Job', new Date(), 'Please Login to Save this Job', true)
+    }else{
+        updatedSavedJobsByUser(state._user.email, event.target.dataset.jobId)
+        // createToast('bookmark', 'Save Job', new Date(), 'This job has been saved for you!', true)
+
+    }
+    // console.log(event.target.dataset.isSaved)
+  } 
+
+  const applyJob = (event) => {
+    if(!state._userAuthState.isAuth){
+        createToast('rocket_launch', 'Apply Job', new Date(), 'Please Login to Apply for this Job', true)
+    }else{
+        updatedAppliedJobsByUser(state._user.email, event.target.dataset.jobId)
+        createToast('rocket_launch', 'Apply Job', new Date(), 'You have now applied to this Job Posting!', true)
+
+    }
+    // console.log(event.target.dataset.isApplied)
   }
 
   const renderJobsList = () => {
 
-    console.log("render Jobs called")
+    console.log("render Jobs called", state)
     let jl = $('jl');
     jl.innerHTML = '';
-
-    if(state._jobs.data.length > 0){
-        state._jobs.data.forEach((job, index) => {
+    let jobsData = state._jobs.data;
+    if(state._userAuthState.isAuth === true){
+        jobsData = modifyJobsDataWithUserReference(jobsData)
+    }
+    console.log('modified data : ', jobsData)
+    if(jobsData.length > 0){
+        jobsData.forEach((job, index) => {
             let jobInnerHtml = `
             <div class="job-card flex flex-column pt-2 pb-2">
                 <div class="h-15 w-100 flex flex-row align-items-center justify-content-between p-2">
@@ -560,10 +772,10 @@ const userSignIn = async() => {
                         <span role="button" data-ctx="expand_jd" id="expand_jd" class="material-symbols-outlined" data-ctx="lg" data-job-id=${job.id}>
                             expand_content
                             </span>
-                            <span role="button" class="material-symbols-outlined">
-                                bookmark
+                            <span role="button" class="material-symbols-outlined" data-bookmark="bookmark" data-job-id=${job.id} data-is-saved=${state._userAuthState.isAuth === true ? job.isSaved : false}>
+                            ${job.isSaved ? 'bookmark_add' : 'bookmark'}
                                 </span>
-                        <button type="button" class="btn btn-secondary btn-sm">Apply Now</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-apply="apply" data-job-id=${job.id} data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false}>${job.isApplied ? 'Applied' : 'Apply Now'}</button>
                     </div>
 
                 </div>
@@ -609,7 +821,7 @@ const userSignIn = async() => {
                         <span class="material-symbols-outlined">
                             track_changes
                             </span>
-                        <div class="flex skills-container" id="skills-container">
+                        <div class="flex skills-container" id="skills-container-${index}">
                         </div>
                     </div>
 
@@ -632,26 +844,32 @@ const userSignIn = async() => {
 
             jl.innerHTML += jobInnerHtml;
 
-            let skillsContainer = $('skills-container')
+            let skillsContainer = $('skills-container-'+index)
 
             job.skillTags.forEach((skill) => {
                 skillsContainer.innerHTML += 
                 `<span class="badge rounded-pill text-bg-dark">${skill}</span>`
             })
+            console.log('index',index)
 
+            if(index === 0){
+                renderJobDesc(job.id)
+            }
 
         })
 
-        $('expand_jd')?.addEventListener('click', toggleJobView);
-        $('collapse_jd')?.addEventListener('click', toggleJobView);
+        // $('expand_jd')?.addEventListener('click', toggleJobView);
+        // $('collapse_jd')?.addEventListener('click', toggleJobView);
 
-        renderJobDesc(state._jobs.data[0].id)
+        // renderJobDesc(state._jobs.data[0].id)
 
         try {
             const btns = document.querySelectorAll('[data-bs-dismiss]');
             btns.forEach((btn) => {
                 if(btn.attributes["data-bs-dismiss"].value === 'toast'){
-                    btn.click()
+                    setTimeout(() => {
+                        btn.click()
+                    }, 5000)
                 }
             })
             
@@ -659,10 +877,48 @@ const userSignIn = async() => {
             console.log(error)
             
         }
+
+        addEventListnerToSaveAndApplyBtn();
+
+    }else{
+        $('jd').innerHTML = '';
     }
 
+  }
 
+  const addEventListnerToSaveAndApplyBtn =() => {
+    try {
+        const bookmarkBtns = document.querySelectorAll('[data-bookmark]');
+        bookmarkBtns.forEach((btn) => {
+            if(btn.attributes["data-bookmark"].value === 'bookmark'){
+                btn.addEventListener('click', bookmarkJob)
+            }
+        })
 
+        const applyBtns = document.querySelectorAll('[data-apply]');
+        applyBtns.forEach((btn) => {
+            if(btn.attributes["data-apply"].value === 'apply'){
+                btn.addEventListener('click', applyJob)
+            }
+        })
+
+        const exoandJdBtns = document.querySelectorAll('[data-ctx]');
+        exoandJdBtns.forEach((btn) => {
+            if(btn.attributes["data-ctx"].value === 'expand_jd'){
+                btn.addEventListener('click', toggleJobView)
+            }
+        })
+
+        const collapseJdBtns = document.querySelectorAll('[data-ctx]');
+        collapseJdBtns.forEach((btn) => {
+            if(btn.attributes["data-ctx"].value === 'collapse_jd'){
+                btn.addEventListener('click', toggleJobView)
+            }
+        })
+
+    } catch (error) {
+        createToast('warning', 'Error', new Date(), error.message, true )   
+    }
   }
 
   const getMomentByDate = (aDateInS) => {
