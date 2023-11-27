@@ -161,8 +161,10 @@ const fetchSearchByQueryJobsData = async() => {
                 allJobsList.push(
                     {id: doc.id, ...doc.data()})
             })
-            if(allJobsList.length > 0)
-            localStorage.setItem("_search_jobs_raw_data", JSON.stringify(allJobsList))
+
+            // can toggle on/of to store master data in ls
+            // if(allJobsList.length > 0)
+            // localStorage.setItem("_search_jobs_raw_data", JSON.stringify(allJobsList))
         }
 
         console.log(allJobsList)
@@ -257,9 +259,9 @@ const fetck = async() => {
 let fetchedUser = {}
     const usersCollection = collection(database, collectionNameForUsersDb, state._user.email);
         const querySnapshot = await getDocs(usersCollection);
-        querySnapshot.forEach((doc) => {
-            if(doc){
-                console.log('fetched user data related to jobs', doc)
+        querySnapshot.forEach((doc, index) => {
+            if(doc.id === state._user.email){
+                console.log(index,': fetched user data related to jobs with id: ', doc.id)
                 fetchedUser = {id: doc.id, ...doc.data()}
                 state._user._data = fetchedUser
             }
@@ -598,7 +600,7 @@ const userSignIn = async() => {
                 <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2" data-bookmark="bookmark" data-job-id=${job.id} data-is-saved=${state._userAuthState.isAuth === true ? job.isSaved : false} >${job.isSaved ? 'Saved' : 'Save'} <span class="material-symbols-outlined">
                     ${job.isSaved ? 'bookmark_add' : 'bookmark'}
                     </span></button>
-                <button type="button"  data-apply="apply" data-job-id=${job.id} data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false} class="btn btn-secondary btn-sm flex align-items-center gap-2">${job.isApplied ? 'Applied' : 'Apply'} <span class="material-symbols-outlined">
+                <button type="button"  data-apply="apply" data-job-id=${job.id}  data-bs-toggle="modal" data-bs-target=${state._userAuthState.isAuth === true ? '#applyJobForm' : ''} data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false} class="btn btn-secondary btn-sm flex align-items-center gap-2">${job.isApplied ? 'Applied' : 'Apply'} <span class="material-symbols-outlined">
                 ${job.isApplied ? 'new_releases' : 'rocket_launch'}
                     </span></button>
 
@@ -720,7 +722,6 @@ const userSignIn = async() => {
                    if(!job.isApplied){
                        _decoratedDataList.push(job);
                    }
-                   console.log(job)
            })
        }
     return _decoratedDataList
@@ -739,16 +740,38 @@ const userSignIn = async() => {
     // console.log(event.target.dataset.isSaved)
   } 
 
+  const applyJobForm = (jobId) => {
+    // event.preventDefault();
+    console.log('on submit',jobId)
+        updatedAppliedJobsByUser(state._user.email,jobId)
+        createToast('rocket_launch', 'Apply Job', new Date(), 'You have now applied to this Job Posting!', true)
+        $('applyFormModalClose').click();
+  }
+
   const applyJob = (event) => {
     if(!state._userAuthState.isAuth){
         createToast('rocket_launch', 'Apply Job', new Date(), 'Please Login to Apply for this Job', true)
     }else{
-        updatedAppliedJobsByUser(state._user.email, event.target.dataset.jobId)
-        createToast('rocket_launch', 'Apply Job', new Date(), 'You have now applied to this Job Posting!', true)
+        $('applyNowModalBtn').dataset.dataJobId = event.target.dataset.jobId;
+        // applyJobForm(event.target.dataset.jobId);
+
+  console.log($('applyNowModalBtn').onclick)
+
 
     }
     // console.log(event.target.dataset.isApplied)
   }
+
+//   $('applyNowModalBtn').addEventListener('click', event => {
+//     event.preventDefault();
+//     alert('its click event')
+//   });
+
+$('applyJobForm').addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event.target[8].dataset.dataJobId)
+    applyJobForm(event.target[8].dataset.dataJobId);
+  })
 
   const renderJobsList = () => {
 
@@ -775,7 +798,7 @@ const userSignIn = async() => {
                             <span role="button" class="material-symbols-outlined" data-bookmark="bookmark" data-job-id=${job.id} data-is-saved=${state._userAuthState.isAuth === true ? job.isSaved : false}>
                             ${job.isSaved ? 'bookmark_add' : 'bookmark'}
                                 </span>
-                        <button type="button" class="btn btn-secondary btn-sm" data-apply="apply" data-job-id=${job.id} data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false}>${job.isApplied ? 'Applied' : 'Apply Now'}</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-apply="apply" data-job-id=${job.id} data-bs-toggle="modal" data-bs-target=${state._userAuthState.isAuth === true ? '#applyJobForm' : ''}  data-is-applied=${state._userAuthState.isAuth === true ? job.isApplied : false}>${job.isApplied ? 'Applied' : 'Apply Now'}</button>
                     </div>
 
                 </div>
