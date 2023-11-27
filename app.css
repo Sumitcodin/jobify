@@ -112,6 +112,19 @@ body {
 
  }
 
+
+ .job-name{
+    font-size: large !important;
+    /* font-weight: bold; */
+    letter-spacing: 0.05rem;
+    text-overflow: ellipsis !important;
+    word-wrap: normal;
+    word-break: break-all;
+    max-width: 55%;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+ }
  .desc-card{
     border-bottom-left-radius: 2%;
     border-bottom: 1px solid var(--color-surface-300);

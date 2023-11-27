@@ -51,6 +51,8 @@ var state = {
     _jobs:{
         isViaSearch: false,
         isViaInitial: true,
+        isViaSaved: false,
+        isViaApplied: false,
         data: [],
         searchQp: ''
     },
@@ -188,6 +190,8 @@ const fetchSearchByQueryJobsData = async() => {
         let _jobs = state._jobs;
         _jobs.isViaSearch = true;
         _jobs.isViaInitial = false;
+        _jobs.isViaSaved = false;
+        _jobs.isViaApplied = false
         _jobs.data = searchedJobsList;
 
         setJobsState(() => {
@@ -281,7 +285,7 @@ const fetchInitialJobsData = async() => {
 
 // await fetck();
 
-    if(state._jobs?.data?.length === 0){
+    // if(state._jobs?.data?.length === 0){
 
         console.log('state data for jobs is empty, fetching from db')
 
@@ -340,10 +344,10 @@ const fetchInitialJobsData = async() => {
 
         // console.log(addRef.id)
 
-    }else{
-        console.log('state data for jos is retreived from cache hit')
-        setJobsState(() => {})
-    }
+    // }else{
+    //     console.log('state data for jos is retreived from cache hit')
+    //     setJobsState(() => {})
+    // // }
 
     $('searchInput').value = '';
 
@@ -411,6 +415,31 @@ const updatedAppliedJobsByUser = async(email, jobId) => {
 }
 
 
+const setJobViewStatusByKey = (key) => {
+    let _jobs = state._jobs;
+    _jobs.isViaSearch = false;
+    _jobs.isViaInitial = false;
+    if(key === 'save')
+        _jobs.isViaSaved = true;
+    else
+    _jobs.isViaSaved = false;
+    if(key === 'apply')
+        _jobs.isViaApplied = true
+    else
+        _jobs.isViaApplied = false
+    setJobsState(() => {
+        state._jobs = _jobs;
+    })
+}
+
+$('viewAppliedJobBtn').addEventListener('click', () => {
+    setJobViewStatusByKey('apply')
+})
+
+$('viewSavedJobBtn').addEventListener('click', () => {
+    setJobViewStatusByKey('save')
+})
+
 
 
 
@@ -455,6 +484,8 @@ const setAndFetchUserDetails = async(email) => {
 
 
 }
+
+
 
 const userSignIn = async() => {
     // console.log("sign in clicked");
@@ -556,7 +587,7 @@ const userSignIn = async() => {
             let jdInnerHtml = `
             <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card">
             <div class="flex flex-row h-15 w-100 p-3 justify-content-between">
-                <span>
+                <span class="job-name">
                     ${job.jobName}
                 </span>
                 <span role="button" data-ctx="collapse_jd" id="collapse_jd" class="material-symbols-outlined">
@@ -719,14 +750,26 @@ const userSignIn = async() => {
            jobsData.forEach((job) => {
                    job = { isSaved: userSavedJobs.includes(job.id), ...job}
                    job = { isApplied: userAppliedJobs.includes(job.id), ...job}
-                   if(!job.isApplied){
-                       _decoratedDataList.push(job);
-                   }
-           })
-       }
-    return _decoratedDataList
 
-  }
+                   if(state._jobs.isViaSearch === true || state._jobs.isViaInitial){
+                    if(!job.isApplied === true){
+                        _decoratedDataList.push(job);
+                    }
+                 } else if(state._jobs.isViaSaved === true){
+                    if(job.isSaved === true){
+                        _decoratedDataList.push(job)
+                    }
+                } else if(state._jobs.isViaApplied === true){
+                        if(job.isApplied === true){
+                            _decoratedDataList.push(job)
+                        }
+                    }
+                 }
+           )}
+           return _decoratedDataList
+       }
+
+  
 
 
   const bookmarkJob = (event) => {
@@ -788,7 +831,7 @@ $('applyJobForm').addEventListener('submit', event => {
             let jobInnerHtml = `
             <div class="job-card flex flex-column pt-2 pb-2">
                 <div class="h-15 w-100 flex flex-row align-items-center justify-content-between p-2">
-                    <span>
+                    <span class="job-name">
                         ${job.jobName}
                     </span>
                     <div class=" flex align-items-center justify-content-between gap-4">
@@ -921,6 +964,9 @@ $('applyJobForm').addEventListener('submit', event => {
         const applyBtns = document.querySelectorAll('[data-apply]');
         applyBtns.forEach((btn) => {
             if(btn.attributes["data-apply"].value === 'apply'){
+                if(btn.attributes["data-is-applied"].value === 'true'){
+                    btn.setAttribute("disabled",'')
+                }
                 btn.addEventListener('click', applyJob)
             }
         })
