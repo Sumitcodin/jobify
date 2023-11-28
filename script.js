@@ -8,14 +8,16 @@
   import { getFirestore, collection, query, where, doc, getDocs, setDoc, getDoc, addDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
   import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 
+var key = "b76x864283b7rztsyvb0x972475bx87tgfd3t54hd8456yu3bd7t34tfbyd2ygd2ty64dtvvcbuywedr36423egd3i7";
+  
   const firebaseConfig = {
-    apiKey: "AIzaSyA_1GaZbo6ScKlmxYh8hyjJDLbT-CVOgkM",
-    authDomain: "online-job-portal-1b29a.firebaseapp.com",
-    databaseURL: "https://online-job-portal-1b29a-default-rtdb.asia-south1.firebasedatabase.app",
-    projectId: "online-job-portal-1b29a",
-    storageBucket: "online-job-portal-1b29a.appspot.com",
-    messagingSenderId: "10071800677371",
-    appId: "1:100718677371:web:255b170e7c1dcd09419908"
+    apiKey: CryptoJS.AES.decrypt('U2FsdGVkX19svOuGSoPeLHFc9E/sf/r+Qyn9bsfafHm56eN6uiv9CzzJzpTk8KnOszEaFb7Y2UKT+7ownxTnZg==', key).toString(CryptoJS.enc.Utf8),
+    authDomain: CryptoJS.AES.decrypt('U2FsdGVkX1/BZHo3IJDmhh6GJylMpUT6lgbY8dsEWAoITzqUcHhMVL6WoWKga9+EKXS9NLZq6KMCSBpPTleBIA==', key).toString(CryptoJS.enc.Utf8),
+    databaseURL: CryptoJS.AES.decrypt('U2FsdGVkX1/OOdZc+tJlzxdPvKYlzhuhSePRNwo9s7SU62UyAF8LEgAU6vzEJjuRh8pbxd4LUaZuqc+xNSzCWfJ2E28weGYvsYCXSmVhh6MHJwDIoAJOTTGbM9t1GqNq', key).toString(CryptoJS.enc.Utf8),
+    projectId: CryptoJS.AES.decrypt('U2FsdGVkX1+SsATt86I3jP1pqjtsUX3m/mdFVBtkQgR+zzQNPHnPDAarTfQ5tYWS', key).toString(CryptoJS.enc.Utf8),
+    storageBucket: CryptoJS.AES.decrypt('U2FsdGVkX1+e9OOYo4t1737HNNYqdlHbRMiZF+aiflOqmDp9D301hu/PHgb2Z+xI4dNtU8p5m+RR6nXqjdhpNA==', key).toString(CryptoJS.enc.Utf8),
+    messagingSenderId: CryptoJS.AES.decrypt('U2FsdGVkX18XaZStTxoYBuSS2bmvPC4FP9rq+8/TcSI=', key).toString(CryptoJS.enc.Utf8),
+    appId: CryptoJS.AES.decrypt('U2FsdGVkX18mqBkWktxVelHmks9bsf58fGndOm0U7T0Eup+yPLtGexPLj+eT6zomG1wV4+YCd5MzTQIneiayzw==', key).toString(CryptoJS.enc.Utf8)
   };
 
     const app = initializeApp(firebaseConfig);
