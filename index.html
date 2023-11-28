@@ -1,469 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jobify | Sumit Prakash</title>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-      crossorigin="anonymous"
-    />
-    <!--
-      <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
-     -->
 
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="color-scheme" content="light dark" /> -->
+    <link type="image/png" sizes="96x96" rel="icon"  href="/images/favicon.png">
+    <title>Jobify | Sumit Prakash</title>
+    <link rel="stylesheet" href="app.css">
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <script src="app.js" defer type="module"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
-      rel="stylesheet"
-    />
-    <script src="app.js" type="module"></script>
-  </head>
-  <body>
-    <!-- <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script> -->
-    <!-- <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-      crossorigin="anonymous"
-    ></script> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a href="#search">
-          <div id="logo-box">
-            <span class="material-symbols-outlined">
-              work
-            </span>
-            <span id="title-text">Online Job Portal</span>
-          </div>
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
-            <a class="nav-link" href="#">Saved Jobs</a>
-            <a class="nav-link" href="#">Applied Jobs</a>
-          </div>
-        </div>
-        <div id="login">
-          <div class="btn-group">
-            <img
-              id="profile-pic"
-              class="rounded-circle"
-              alt="profile pic"
-              type="button"
-              class="btn btn-secondary dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            />
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <button class="dropdown-item" type="button">
-                  View Profile
-                </button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">
-                  Edit Profile
-                </button>
-              </li>
-            </ul>
-          </div>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            id="logInButton"
-          >
-            Log In/Sign Up
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            id="logOutButton"
-          >
-            Log out
-          </button>
-        </div>
-        <button
-          id="navToggler"
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
-    <div id="liveAlertPlaceholder"></div>
-    <section id="search">
-      <div id="search-box">
-        <div>
-          <div class="input-group mb-3 form-inputs">
-            <!-- <span class="input-group-text">Job Title</span> -->
-            <input
-              type="text"
-              aria-label="First name"
-              class="form-control"
-              placeholder="Job Title"
-              class="form-inputs"
-            />
-            <!-- <span class="input-group-text">Company</span> -->
-            <input
-              type="text"
-              aria-label="Last name"
-              class="form-control"
-              placeholder="Company"
-              class="form-inputs"
-            />
-            <!-- <span class="input-group-text">Exp.</span> -->
-            <select
-              class="form-select"
-              id="inputGroupSelect01"
-              class="form-inputs"
-            >
-              <option value="" disabled selected>Experience</option>
-            </select>
-            <a href="#jobs-lists">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-              >
-                Search
-              </button>
-            </a>
-          </div>
-        </div>
 
-        <section id="resume-button-wrapper">
-          <button type="button" class="btn btn-outline-secondary">
-            <span class="material-symbols-outlined">
-              cloud_upload
-            </span>
-            &nbsp; Upload Resume
-          </button>
-        </section>
-      </div>
-      <div id="search-title">Jobs that match your<i>skills</i>.</div>
-    </section>
-    <div id="jobs-lists">
-      <div id="job-list">
-        <!-- <div class="res-count">Showing 5 job postings from search..</div> -->
-        <!-- <div class="job">
-          <div class="job-head">
-            <div id="job-content">
-              <div id="info">
-                <div id="jobTitle">
-                  This is the job title
+
+</head>
+
+<body style="color-scheme: light !important;">
+    <nav  class="navbar fixed-top">
+        <div class="container-fluid" style="max-width: 960px;">
+            <a class="navbar-brand flex align-items-center gap-2" role="button" id="homeBtnNav" style="font-weight: 600; letter-spacing: 0.12rem;" >
+                <!-- <span class="material-symbols-outlined">
+                    work
+                  </span> -->
+                  <img src="./images/favicon.png" style="height: 20px;
+                  width: 20px;">
+                Jobify</a>
+            <div class="btn-group">
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" id="loginBtn" class="btn btn-secondary btn-sm">Sign up <span class="material-symbols-outlined">
+                        wifi_1_bar
+                        </span> Login</button>
+                    <img id="profilePhoto" src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+                        style="height: 30px;
+                        display: none;
+                width: 30px;
+                margin: auto;
+                border-radius: 50%;
+                " id="profile-pic" class="rounded-circle" alt="pic" type="button"
+                        class="btn btn-secondary "/>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                 </div>
-                <div id="companyName">
-                  <span>
-                    Company Name
-                  </span>
-                </div>
-              </div>
-              <span class="material-symbols-outlined">
-                bookmark
-              </span>
-            </div>
-          </div>
-          <div class="job-body">
-            <div class="body-elements-wrap" id="period-wrap">
-              <span class="material-symbols-outlined">
-                approval
-              </span>
-              <div>Period</div>
-            </div>
-            <div class="body-elements-wrap" id="location-wrap">
-              <span class="material-symbols-outlined">
-                location_on
-              </span>
-              <div>Location</div>
-            </div>
-            <div class="body-elements-wrap" id="exp-wrap">
-              <span class="material-symbols-outlined">
-                work_history
-              </span>
-              <div>Experience</div>
-            </div>
-            <div class="body-elements-wrap" id="ideas-wrap">
-              <span class="material-symbols-outlined">
-                lightbulb
-              </span>
-              <div id="ideas-list">
-                <span class="badge rounded-pill text-bg-light">tag1</span>
-                <span class="badge rounded-pill text-bg-light">tag2</span>
-                <span class="badge rounded-pill text-bg-light">tag3</span>
-                <span class="badge rounded-pill text-bg-light">tag4</span>
-                <span class="badge rounded-pill text-bg-light">tag</span>
-              </div>
-            </div>
-          </div>
-          <div class="job-footer">
-            <div class="body-elements-wrap">
-              <span class="material-symbols-outlined">
-                schedule
-              </span>
-              <div id="timestamp">Timestamp</div>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="job"></div>
-        <div class="job"></div>
-        <div class="job"></div> -->
-      </div>
-      <div id="job-desc">
-        <div id="desc-box">
-          <div id="desc-header">
-            <div id="desc-header-info">
-              <div id="desc-header-jobTitle">
-                This is the job title
-              </div>
-              <div id="desc-header-companyName">
-                <span>
-                  Company Name
-                </span>
-              </div>
-            </div>
-            <div
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: space-evenly;
-                flex-grow: 0.2;
-              "
-            >
-              <span id="close-desc-fs" class="material-symbols-outlined">
-                close_fullscreen
-              </span>
-              <button
-                type="button"
-                class="btn btn-secondary btn-sm"
-                id="applyNowButton"
-                data-bs-toggle="modal" data-bs-target="#applyForm"
-              >
-                Apply Now
-              </button>
-
-              <div class="modal fade" id="applyForm" tabindex="-1" aria-labelledby="applyFormLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="applyFormLabel">Application Form</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDarkNavbar"
+                    aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Jobify</h5>
+                        <!-- <button type="button" class="btn-close flex align-items-center justify-content-center" data-bs-dismiss="offcanvas"
+                           > -->
+                            <span class="material-symbols-outlined" role="button" data-bs-dismiss="offcanvas">
+                                left_panel_open
+                                </span>
+                        <!-- </button> -->
                     </div>
-                    <div class="modal-body">
-                      <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="First Name & Last Name">
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav flex flex-column justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active flex flex-row align-items-center gap-1" aria-current="page" role="button" id="homeBtnMenu">
+                                    <span class="material-symbols-outlined">
+                                        home_app_logo
+                                        </span>
+                                    
+                                    <span>
+                                        Home
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link flex flex-row align-items-center gap-1"  role="button" id="viewSavedJobBtn">
+                                    <span class="material-symbols-outlined">
+                                        bookmark_add
+                                        </span>
+                                    <span>
+                                        Saved Jobs
+                                    </span>
+                                </a>
+                                <a class="nav-link flex flex-row align-items-center gap-1" role="button" id="viewAppliedJobBtn">
+                                    <span class="material-symbols-outlined">
+                                        new_releases
+                                    </span>
+                                    <span>
+                                    Applied Jobs
+                                    </span>
+                                </a>
+                                <br>
+                                <div id="resume-upload-nav-container">
+                                 <div class="flex flex-column align-items-start justify-content-center gap-2" id="resume-upload-container">
+                                    <label role="button" class="flex flex-row align-items-center gap-1 " id="resumeUploadLabel" for="resumeUploadNav">
+                                        <span class="material-symbols-outlined">
+                                            cloud_upload
+                                            </span>
+                                        <span>
+                                        Upload Resume
+                                    </span>
+                                </label>
+                                    <input type="file" accept=".pdf" id="resumeUploadNav" class=" form-control ps-0 pt-2" style="display: none;"/>
+                                
+                                 </div>
+
+                              <div id="resume-uploaded-container" style="display: none;">
+                                <span class="flex flex-row align-items-center gap-1">
+                                    <span class="material-symbols-outlined">
+                                        cloud_done
+                                        </span>
+                                    Resume Uploaded
+                                </span>
+                                <br>
+                                <a class="btn btn-primary" id="view-resume-btn" target="_blank">
+                                    View 
+                                </a>
+                                <button class="btn btn-primary" id="re-upload-resume-btn" >Re-Upload</button>
+                                
+                              </div>
+                            </div>
+                                <br>
+                                <div>
+                                    <!-- <input type="checkbox" id="darkModeToggler" class="btn-check" id="btn-check" autocomplete="off"> -->
+                                    <label id="darkModeToggler" role="button" class="btn btn-primary flex align-items-center w-10 h-10" for="btn-check"><span class="material-symbols-outlined" id="dark-mode-toggle-label">
+                                        dark_mode
+                                        </span></label>
+                                </div>
+                                <br><br>
+                                <hr class="hr">
+                                <br>
+                                <button type="button" id="logoutBtn" class="btn btn-secondary btn-sm">Logout</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </nav>
+
+    <section id="search">
+        <div id="search-box" class="container-fluid flex flex-column align-items-center justify-content-center" style="max-width: 960px; height: 100px; margin-top: 50px; padding:5px; 
+        /* background-color: var(--color-surface-400); */
+        ">
+            <div class="flex flex-row align-items-center justify-content-around gap-2 p-5" style="width: inherit;">
+                <input class="form-control form-control-sm" type="text" placeholder="Search by title, skill, location or company" aria-label=".form-control-sm example" style="background-color: var(--color-surface-200); color: var(--color-primary-200); border: none;" id="searchInput">
+            <button type="button" class="btn btn-secondary  btn-dark btn-sm" style="border: none; background-color: var(--color-surface-100);" id="searchBtn">Search</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="jobs">
+        <div id="jobs-container" class="container-fluid flex flex-row align-items-start justify-content-start p-0"  style="
+            /* background-color: var(--color-surface-200); */
+            max-width: 960px;
+            height: calc( 100dvh - calc( 50px + 100px + 50px ) );
+            ">
+
+            <div id="jl" 
+            data-ctx="sm"
+            >
+
+                 <!-- <div class="job-card flex flex-column pt-2 pb-2">
+                    <div class="h-15 w-100 flex flex-row align-items-center justify-content-between p-2">
+                        <span>
+                            Job Application Title
+                        </span>
+
+                        <div class=" flex align-items-center justify-content-between gap-4">
+                            <span role="button" data-ctx="expand_jd" id="expand_jd" class="material-symbols-outlined" data-ctx="lg">
+                                expand_content
+                                </span>
+                                <span role="button" class="material-symbols-outlined">
+                                    bookmark
+                                    </span>
+                            <button type="button" class="btn btn-secondary btn-sm">Apply Now</button>
+                        </div>
+
+                    </div>
+
+                    <div class="h-70 w-100 flex flex-column align-items-start justify-content-center">
+                        <div class="flex flex-row gap-2 p-2 align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                apartment
+                                </span>
+                            <span>
+                                Company Name
+                            </span>
+                        </div>
+
+                        <div class="flex flex-row gap-2 p-2 align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                timeline
+                                </span>
+                            <span>
+                                Full time
+                            </span>
+                        </div>
+
+                        <div class="flex flex-row gap-2 p-2 align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                location_on
+                                </span>
+                            <span>
+                                Location
+                            </span>
+                        </div>
+
+                        <div class="flex flex-row gap-2 p-2 align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                linked_services
+                                </span>
+                            <span>
+                                Experience required
+                            </span>
+                        </div>
+
+                        <div class="flex flex-row gap-2 p-2 mw-100 align-items-center justify-content-start">
+                            <span class="material-symbols-outlined">
+                                track_changes
+                                </span>
+                            <div class="flex skills-container">
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+                                <span class="badge rounded-pill text-bg-dark">Skills</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="h-15 w-100 flex flex-row align-items-center justify-content-between p-2">
+
+                        <div class="flex flex-row gap-2 align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                schedule
+                                </span>
+                            <span>
+                                Timestamp
+                            </span>
+                        </div>
+                    </div>
+
+                </div>  -->
+            
+            </div>
+            <div id="jd" data-ctx="lg" class="flex flex-column align-items-start">
+                <!-- <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card">
+                    <div class="flex flex-row h-15 w-100 p-3 justify-content-between">
+                        <span>
+                            Job Application Title
+                        </span>
+                        <span role="button" data-ctx="collapse_jd" id="collapse_jd" class="material-symbols-outlined">
+                            collapse_content
+                        </span>
+                    </div>
+                
+                    <div class="flex flex-row gap-1 justify-content-between align-items-center ps-3 pe-3 pb-3 w-100 ">
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                apartment
+                                </span>
+                            Company Name</span>
+                        <span class="material-symbols-outlined">
+                            more_horiz
+                        </span>
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                timeline
+                                </span>
+                            Full Time</span>
+                        <span class="material-symbols-outlined">
+                            more_horiz
+                        </span>
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                location_on
+                                </span>
+                            Location</span>
+                    </div>
+                    <div class="flex flex-row align-items-start h-15 w-100 ps-3 pe-3 gap-3">
+                        <span class="flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">
+                                schedule
+                                </span>
+                            Posted</span>
+                        <span>Timestamp</span>
+                    </div>
+
+                    <div class="flex flex-row w-50 h-auto p-3 gap-3">
+                        <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Save <span class="material-symbols-outlined">
+                            bookmark
+                            </span></button>
+                        <button type="button" class="btn btn-secondary btn-sm flex align-items-center gap-2">Apply <span class="material-symbols-outlined">
+                            rocket_launch
+                            </span></button>
+
+                    </div>
+                </div>
+
+                <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card p-3">
+                    <span>Job Description</span>
+                    <p class="pt-3  flex-wrap">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem odit quis illum, deserunt reprehenderit ipsam libero! Dignissimos et aspernatur, omnis tempora voluptatum possimus qui cumque placeat vitae dolore facere fuga! Rerum dolorum, quidem tempore accusamus expedita sit, temporibus esse eveniet blanditiis aperiam deserunt delectus! Tempore illo sapiente officia voluptate laudantium.                    </p>
+                </div>
+
+                
+                <div class="flex flex-column h-auto w-100 align-items-start justify-content-center desc-card p-3">
+                
+                    <div>
+                        <span>
+                            Required Qualification
+                        </span>
+                        <ul class="ps-3 pt-2" style="list-style-type: disc !important;">
+                            <li>Lorem ipsum dolor sit amet.</li>
+                            <li>Quo dolorem laborum sit asperiores?</li>
+                            <li>Tenetur delectus deserunt quaerat eum.</li>
+                        </ul>
+                        <br>
+                        <span>
+                            Preferred Qualification
+                        </span>
+                        <ul class="ps-3 pt-2" style="list-style-type: disc !important;">
+                            <li>Lorem ipsum dolor sit amet.</li>
+                            <li>Quo dolorem laborum sit asperiores?</li>
+                            <li>Tenetur delectus deserunt quaerat eum.</li>
+                        </ul>
+                        
+                    </div>
+                
+                </div>
+
+                <div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+                    <div class="flex flex-row gap-2 mw-100 align-items-center justify-content-start">
+                        <span class="material-symbols-outlined">
+                            track_changes
+                            </span>
+                        <div class="flex skills-container">
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+                            <span class="badge rounded-pill text-bg-dark">Skills</span>
+
+                        </div>
+                    </div>
+                   
+</div>
+
+<div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+    <span class="pb-3">
+        About the Company
+    </span>
+
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo quidem enim cumque consequatur quos cum saepe omnis repellendus et, possimus commodi eius, accusamus fugiat maiores?</p>
+</div>
+
+<div class="flex flex-column h-auto mw-100 align-items-start flex-wrap desc-card p-3">
+
+    <div class="flex flex-row align-items-center justify-content-center gap-3">
+        <span class="material-symbols-outlined">
+            lightbulb
+            </span>
+
+
+            <span>
+                <span>Job ID</span>
+                JOB0000ID
+            </span>
+    </div>
+    </div> -->
+            </div>
+        </div>
+    </section>
+
+    <footer  style="bottom: 0;
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    background-color: var(--color-surface-200);
+    display: flex;
+    align-items: center;
+    ">
+        <div class="container-fluid
+        " style="max-width: 960px; display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        "
+        >
+            <div class="flex justify-content-between gap-2 align-items-center">
+
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM199.4 312.6c-31.2-31.2-31.2-81.9 0-113.1s81.9-31.2 113.1 0c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9c-50-50-131-50-181 0s-50 131 0 181s131 50 181 0c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0c-31.2 31.2-81.9 31.2-113.1 0z"/></svg>          </div>
+                <span>
+                    Jobify | All rights reserverd
+                </span>
+            </div>
+
+            <div class=""
+            style="display: flex; align-items: center ;gap: 20px;">
+                <a href="https://www.facebook.com/sumit.prakash.5492" target="_blank">
+                    <div class="sm-links">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg>
+                    </div>
+                </a>
+                <a href="https://instagram.com/sumit3891?igshid=MzNlNGNkZWQ4Mg==" target="_blank">
+                <div class="sm-links">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                </div>
+                </a>
+                <a href="https://api.whatsapp.com/send?phone=747979614061" target="_blank">
+                <div class="sm-links">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+                </div>
+                </a>
+                <a href="https://www.linkedin.com/in/sumit-prakash-a83667267#" target="_blank">
+                <div class="sm-links">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg>
+                </div>
+                </a>
+                <a href="https://github.com/Sumitcodin" target="_blank" rel="noopener noreferrer">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+                </div>
+                </a>
+              </div>
+        </div>
+    </footer>
+
+    <div class="toast-container position-fixed bottom-12 end-1 pb-1" style="color: black;">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+
+        </div>
+      </div>
+
+      <div class="modal fade" id="applyJobForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Application Form</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="applyJobForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="applyNowName" class="form-label">Name</label>
+                        <input required type="text" class="form-control" id="applyNowName" placeholder="First Name & Last Name">
                       </div>
                       <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                        <label for="applyNowEmail" class="form-label">Email address</label>
+                        <input required type="email" class="form-control" id="applyNowEmail" placeholder="name@example.com">
                       </div>
                       <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Address">
+                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Address">
                       </div>
                      <div style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
                       <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">City</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="City">
+                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="City">
                       </div>
                       <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Zipcode</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Zipcode">
+                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Zipcode">
                       </div>
                      </div>
-                     <div class="mb-3">
+                     <div class="mb-3" id="resumeInForm">
                       <label for="formFile" class="form-label">Upload Resume</label>
-                      <input class="form-control" type="file" id="formFile">
+                      <input class="form-control" type="file" accept=".pdf" id="formFile">
                     </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Apply 🚀</button>
-                    </div>
-                  </div>
+                    <div class="form-check">
+                        <input required class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            I agree to the terms and conditions for this job as specified by Jobify ©.
+                        </label>
+                      </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div> -->
-          <ul class="nav nav-tabs desc-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#highlight"
-                >Highlights</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#jd">Job Description</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#more-info">More Information</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#rec-info">Recruiter's Information</a>
-            </li>
-          </ul>
-          <!-- </div> -->
-          <div id="desc-body">
-            <div class="desc-body-box" id="highlight">
-              Some Highlights regarding the Job
-            </div>
-            <div class="desc-body-box" id="jd">
-              Job Description
-            </div>
-            <div class="desc-body-box" id="more-info">
-              More Information regarding applying and job
-            </div>
-            <div class="desc-body-box" id="rec-info">
-              Recruiters Information
-            </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" id="applyFormModalClose" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn flex align-items-center gap-2" id="applyNowModalBtn">
+                    <span class="material-symbols-outlined">
+                    rocket_launch
+                    </span>
+                    Apply Now
+                  </button>
+                </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
-    <section id="comp-disp-grid">
-      <div class="grid-header">
-        Top Companies
-      </div>
-      <div id="comp-list">
-        <div class="comp">Delloite</div>
-        <div class="comp">IBM</div>
-        <div class="comp">Capgemini</div>
-        <div class="comp">Infosys</div>
-        <div class="comp">HCL</div>
-        <div class="comp">Wipro</div>
-        <div class="comp">TCS</div>
-      </div>
-    </section>
+</body>
 
-    <footer id="footer-wrap">
-      <div id="footer-section-1">
-        <div class="footer-email footer-block">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></svg>
-          </div>
-          <div  style="max-width: min-content;">
-            <span>
-              <h5>prakashsumit2017@gmail.com</h5>
-            </span>
-          </div>
-        </div>
-        <div class="footer-phone footer-block">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
-          </div>
-          <div>
-            <span>
-              <h5>+91 9988998899</h5>
-            </span>
-          </div>
-        </div>
-        <div class="footer-phone footer-block">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 0C44.7 0 16 28.7 16 64V448c0 35.3 28.7 64 64 64H304c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H80zm80 432h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H160c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>          </div>
-          <div>
-            <span>
-              <h5>View this website on Mobile</h5>
-            </span>
-          </div>
-        </div>
-        <div class="footer-socials">
-          <div><h4 style="padding: 0px !important;
-            margin: 0px !important; font-weight: 600;">Social Presence</h4></div>
-          <div class="sm-links-wrap">
-            <div class="sm-links">
-              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg>
-            </div>
-            <div class="sm-links">
-              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-            </div>
-            <div class="sm-links">
-              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
-            </div>
-            <div class="sm-links">
-              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg>
-            </div>
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-            </div>
-          </div>
-        </div>
-        <div class="footer-phone footer-block">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM199.4 312.6c-31.2-31.2-31.2-81.9 0-113.1s81.9-31.2 113.1 0c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9c-50-50-131-50-181 0s-50 131 0 181s131 50 181 0c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0c-31.2 31.2-81.9 31.2-113.1 0z"/></svg>          </div>
-          <div>
-            <span>
-              <h5>2023 jobify | All rights Reserved</h5>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div id="footer-section-2">
-        <div class="info-wrap">
-          <div>
-            <h4>Author</h4>
-            <div>
-              <h5>Sumit Prakash</h5>
-            </div>
-          </div>
-          <br>
-          <div>
-            <h4>Institution</h4>
-            <div>
-              <span>
-                <h5>
-                  Arka Jain University
-                </h5>
-                <h6>JGI</h6>
-              </span>
-            </div>
-          </div>
-          <br>
-          <div>
-            <h4>
-              Project Details
-            </h4>
-            <div>
-              <span>
-                <h5>
-                  5th Semester Major
-                </h5>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    
-  </body>
 </html>
