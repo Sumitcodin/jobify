@@ -66,7 +66,7 @@ var state = {
 
 // Object.defineProperty(state, "_jobViewState", {
 //     set: (changed) => {
-//         console.log(state)
+        // console.log(state)
 //     }
 // })
 
@@ -142,17 +142,17 @@ const fetchSearchByQueryJobsData = async() => {
 
         let _allJobsList = localStorage.getItem('_search_jobs_raw_data');
         if(_allJobsList != null){
-            console.log('fetched master search data from cache hit')
+            // console.log('fetched master search data from cache hit')
             allJobsList = JSON.parse(_allJobsList)
         }else{
-            console.log('fetched master search data from db')
+            // console.log('fetched master search data from db')
             const jobsCollection = collection(database, 'jobs');
             // const q = query(jobsCollection, where('isFeatured', '==', true))
             const querySnapshot = await getDocs(jobsCollection);
 
             // try to unsub from the snapshot listener
             // const unsub = onSnapshot(collection(database, 'jobs'), (doc) => {
-            //     console.log(doc)
+                // console.log(doc)
             //     if(doc)
             //     allJobsList.push(
             //         {id: doc.id, ...doc.data()})
@@ -173,7 +173,7 @@ const fetchSearchByQueryJobsData = async() => {
             // localStorage.setItem("_search_jobs_raw_data", JSON.stringify(allJobsList))
         }
 
-        console.log(allJobsList)
+        // console.log(allJobsList)
         allJobsList.forEach((job) => {
             let skills = job.skillTags;
             skills = skills.map((value) => {return value.toLowerCase()})
@@ -205,7 +205,7 @@ const fetchSearchByQueryJobsData = async() => {
 
     // }
     // else if(state._jobs.isViaSearch === true && state._jobs?.data?.length > 0){
-    //     console.log('state data for search jobs is retreived from cache hit')
+        // console.log('state data for search jobs is retreived from cache hit')
     //     let _jobs = state._jobs;
     //     _jobs.isViaSearch = true;
     //     _jobs.isViaInitial = false
@@ -214,7 +214,7 @@ const fetchSearchByQueryJobsData = async() => {
     //     })
     // }
 
-    console.log(state)
+    // console.log(state)
 
 }
 
@@ -269,7 +269,7 @@ let fetchedUser = {}
         const querySnapshot = await getDocs(usersCollection);
         querySnapshot.forEach((doc, index) => {
             if(doc.id === state._user.email){
-                console.log(index,': fetched user data related to jobs with id: ', doc.id)
+                // console.log(index,': fetched user data related to jobs with id: ', doc.id)
                 fetchedUser = {id: doc.id, ...doc.data()}
                 state._user._data = fetchedUser
             }
@@ -302,7 +302,7 @@ const fetchInitialJobsData = async() => {
 
     // if(state._jobs?.data?.length === 0){
 
-        console.log('state data for jobs is empty, fetching from db')
+        // console.log('state data for jobs is empty, fetching from db')
 
         let featuredJobsList = [];
         const jobsCollection = collection(database, 'jobs');
@@ -361,7 +361,7 @@ const fetchInitialJobsData = async() => {
         // console.log(addRef.id)
 
     // }else{
-    //     console.log('state data for jos is retreived from cache hit')
+        // console.log('state data for jos is retreived from cache hit')
     //     setJobsState(() => {})
     // // }
 
@@ -459,7 +459,7 @@ const setJobViewStatusByKey = (key) => {
     else
         _jobs.isViaApplied = false
     
-    console.log('ststa after settig jobs state', state)
+    // console.log('ststa after settig jobs state', state)
     setJobsState(() => {
         state._jobs = _jobs;
     })
@@ -485,10 +485,10 @@ const setAndFetchUserDetails = async(email) => {
         const querySnapshot = await getDoc(usersCollection);
         if(querySnapshot.exists()){
             fetchedUser = {id: querySnapshot.id, ...querySnapshot.data()}
-            console.log('user found in collection with ', email, '\n', querySnapshot )
+            // console.log('user found in collection with ', email, '\n', querySnapshot )
         }else{
-            console.log('no user found in collection with ', email)
-            console.log('creating a new entry in users collection with ', email)
+            // console.log('no user found in collection with ', email)
+            // console.log('creating a new entry in users collection with ', email)
             await setDoc(doc(database, collectionNameForUsersDb, email), {
                 name: state._user.name,
                 appliedJobsIds: [],
@@ -498,10 +498,10 @@ const setAndFetchUserDetails = async(email) => {
         const usersCollection = doc(database, collectionNameForUsersDb, email);
         const querySnapshot = await getDoc(usersCollection);
         if(querySnapshot.exists()){
-            console.log('fetched the newly created user in the collection')
+            // console.log('fetched the newly created user in the collection')
             fetchedUser = {id: querySnapshot.id, ...querySnapshot.data()}
         }else{
-            console.log('newly created user not fetched from the collection')
+            // console.log('newly created user not fetched from the collection')
         }
 
         }
@@ -514,7 +514,7 @@ const setAndFetchUserDetails = async(email) => {
        
         state._user._data = fetchedUser;
 
-        console.log('after setAndFetchUserDetails()',state)
+        // console.log('after setAndFetchUserDetails()',state)
 
 
 }
@@ -541,16 +541,16 @@ const uploadResume = async() => {
     }else{
         let base64File;
         const file = $('resumeUploadNav').files[0];
-        console.log('file', file)
+        // console.log('file', file)
         var fileReader = new FileReader();
         fileReader.onload = function(event) {
             base64File = event.target.result;
             let resumeName = "resume_".concat(state._user.email);
             const storageRef = ref(storage, resumeName);
             uploadString(storageRef, base64File, 'data_url').then((snapshot) => {
-                console.log('uplaoded a pdf with string,', snapshot)
+                // console.log('uplaoded a pdf with string,', snapshot)
                 // snapshot.ref.getDownloadURL().then(function(downloadURL){
-                //     console.log('file available at ', downloadURL)
+                    // console.log('file available at ', downloadURL)
                 //     metadata = downloadURL
                 // })
                
@@ -558,7 +558,7 @@ const uploadResume = async() => {
                 return getDownloadURL(snapshot.ref)
 
             }).then( downloadURL => {
-                console.log('file available at ', downloadURL)
+                // console.log('file available at ', downloadURL)
                 metadata = downloadURL;
                 try {
                     $('view-resume-btn').href = metadata;
@@ -582,11 +582,12 @@ const uploadResume = async() => {
        if(metadata !== null) {
          const userRef = doc(database, collectionNameForUsersDb, state._user.email);
          
-         console.log('user fdata',metadata)
+        //  console.log('user fdata',metadata)
          await updateDoc(userRef, {
              resume: true,
              resumeFileMetaData:  metadata
          })
+         createToast('cloud_done', 'Resume Upload', new Date(), 'Your resume has been uploaded!',true)
 
          $('resume-uploaded-container').style.display = 'block';
          $('resume-upload-container').style.display = 'none';
@@ -602,12 +603,12 @@ const uploadResume = async() => {
 }
 
 $('resumeUploadNav').onchange =() => {
-    console.log('on change handler')
+    // console.log('on change handler')
     uploadResume()
 }
 
 // $('resumeUploadNav').onclick =() => {
-//     console.log('on change handler')
+    // console.log('on change handler')
 //     uploadResume()
 // }
 
@@ -636,7 +637,7 @@ const userSignIn = async() => {
   }
 
   onAuthStateChanged(auth, (user) => {
-    console.log('onAuthStateChanged called')
+    // console.log('onAuthStateChanged called')
       let newAuthState = {};
     if(user){
         newAuthState.isAuth = true;
@@ -694,7 +695,7 @@ const userSignIn = async() => {
 
   const renderJobDesc = (jobId) => {
 
-    console.log('renderJobDesc() called for ', jobId)
+    // console.log('renderJobDesc() called for ', jobId)
     let jobsData = state._jobs.data;
     if(state._userAuthState.isAuth)
         jobsData = modifyJobsDataWithUserReference(jobsData)
@@ -868,7 +869,7 @@ const userSignIn = async() => {
 
       let _decoratedDataList = [];
 
-       console.log('modifyJobsDataWithUserReference called', state)
+    //    console.log('modifyJobsDataWithUserReference called', state)
        const userSavedJobs = state._user._data?.savedJobsIds;
        const userAppliedJobs = state._user._data?.appliedJobsIds;
        if(state._userAuthState.isAuth) {
@@ -910,7 +911,7 @@ const userSignIn = async() => {
 
   const applyJobForm = (jobId) => {
     // event.preventDefault();
-    console.log('on submit',jobId)
+    // console.log('on submit',jobId)
         updatedAppliedJobsByUser(state._user.email,jobId)
         createToast('rocket_launch', 'Apply Job', new Date(), 'You have now applied to this Job Posting!', true)
         $('applyFormModalClose').click();
@@ -939,7 +940,7 @@ const userSignIn = async() => {
     }else{
         $('applyNowModalBtn').dataset.dataJobId = event.target.dataset.jobId;
     //    setTimeout(()=> {
-    //     console.log('upload resume inside form',$('formFile'))
+        // console.log('upload resume inside form',$('formFile'))
 
     //     const file = new File(state._user._data.pdf, 'resume.pdf')
     //     const dataTransfer = new DataTransfer();
@@ -961,20 +962,20 @@ const userSignIn = async() => {
 
 $('applyJobForm').addEventListener('submit', event => {
     event.preventDefault();
-    console.log(event)
+    // console.log(event)
     applyJobForm(event.submitter.attributes["data-data-job-id"].value);
   })
 
   const renderJobsList = () => {
 
-    console.log("render Jobs called", state)
+    // console.log("render Jobs called", state)
     let jl = $('jl');
     jl.innerHTML = '';
     let jobsData = state._jobs.data;
     if(state._userAuthState.isAuth === true){
         jobsData = modifyJobsDataWithUserReference(jobsData)
     }
-    console.log('modified data : ', jobsData)
+    // console.log('modified data : ', jobsData)
     if(jobsData.length > 0){
         jobsData.forEach((job, index) => {
             let jobInnerHtml = `
@@ -1065,7 +1066,7 @@ $('applyJobForm').addEventListener('submit', event => {
                 skillsContainer.innerHTML += 
                 `<span class="badge rounded-pill">${skill}</span>`
             })
-            console.log('index',index)
+            // console.log('index',index)
 
             if(index === 0){
                 renderJobDesc(job.id)
@@ -1089,7 +1090,7 @@ $('applyJobForm').addEventListener('submit', event => {
             })
             
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             
         }
 
@@ -1102,7 +1103,7 @@ $('applyJobForm').addEventListener('submit', event => {
   }
 
   const darkModeToggleFunc = (event) => {
-    console.log(event)
+    // console.log(event)
   }
 
   function load() {
@@ -1111,7 +1112,7 @@ $('applyJobForm').addEventListener('submit', event => {
     // MediaQueryList object
     const useDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-    console.log('useDark', useDark);
+    // console.log('useDark', useDark);
   
     // Toggles the "dark-mode" class based on if the media query matches
     function toggleDarkMode(state) {
