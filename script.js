@@ -300,6 +300,7 @@ const fetchInitialJobsData = async() => {
         })
          let _jobs = state._jobs;
         _jobs.data = featuredJobsList;
+        setJobViewStatusByKey('initial');
         setJobsState(()=> {
             state._jobs = _jobs
         })
@@ -418,7 +419,8 @@ const updatedAppliedJobsByUser = async(email, jobId) => {
 const setJobViewStatusByKey = (key) => {
     let _jobs = state._jobs;
     _jobs.isViaSearch = false;
-    _jobs.isViaInitial = false;
+
+    _jobs.isViaInitial = ( key === 'initial');
     if(key === 'save')
         _jobs.isViaSaved = true;
     else
@@ -427,6 +429,8 @@ const setJobViewStatusByKey = (key) => {
         _jobs.isViaApplied = true
     else
         _jobs.isViaApplied = false
+    
+    console.log('ststa after settig jobs state', state)
     setJobsState(() => {
         state._jobs = _jobs;
     })
@@ -497,12 +501,14 @@ const userSignIn = async() => {
     }).catch((error)=> {
         createToast('login', 'Login', new Date(), error.message, true)
     })
+
   }
 
   const userSignOut = async() => {
     signOut(auth).then(() => {
         createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!', true );
         localStorage.clear();
+        setJobViewStatusByKey('initial')
     }).catch((error) => {
         createToast('logout', 'Logout', new Date(), error.message, true)
     }) 
@@ -751,12 +757,12 @@ const userSignIn = async() => {
                    job = { isSaved: userSavedJobs.includes(job.id), ...job}
                    job = { isApplied: userAppliedJobs.includes(job.id), ...job}
 
-                   if(state._jobs.isViaSearch === true || state._jobs.isViaInitial){
+                   if(state._jobs.isViaSearch === true || state._jobs.isViaInitial === true){
                     if(!job.isApplied === true){
                         _decoratedDataList.push(job);
                     }
                  } else if(state._jobs.isViaSaved === true){
-                    if(job.isSaved === true){
+                    if(job.isSaved === true && !job.isApplied === true){
                         _decoratedDataList.push(job)
                     }
                 } else if(state._jobs.isViaApplied === true){
@@ -964,8 +970,10 @@ $('applyJobForm').addEventListener('submit', event => {
         const applyBtns = document.querySelectorAll('[data-apply]');
         applyBtns.forEach((btn) => {
             if(btn.attributes["data-apply"].value === 'apply'){
-                if(btn.attributes["data-is-applied"].value === 'true'){
-                    btn.setAttribute("disabled",'')
+                if(state._userAuthState.isAuth){
+                    if(btn.attributes["data-is-applied"].value === 'true'){
+                        btn.setAttribute("disabled",'')
+                    }
                 }
                 btn.addEventListener('click', applyJob)
             }
