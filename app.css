@@ -1,6 +1,6 @@
 :root {
     /** CSS DARK THEME PRIMARY COLORS */
-    --color-primary-100: #a3a2e0;
+     --color-primary-100: #a3a2e0;
     --color-primary-200: #adace4;
     --color-primary-300: #b8b6e7;
     --color-primary-400: #c2c0eb;
@@ -16,7 +16,7 @@
     --color-surface-600: #908f97;
 
 
-     /*
+    /** 
      --color-primary-100: #272c33;
      --color-primary-200: #3b4047;
      --color-primary-300: #51555b;
@@ -29,27 +29,259 @@
      --color-surface-300: #363f55;
      --color-surface-400: #50576b;
      --color-surface-500: #6b7182;
-     --color-surface-600: #878b9a; */
- 
+     --color-surface-600: #878b9a;
+  */
 
      --header-height: 50px;
      --foooter-height: 50px;
      --search-container-height: 100px;
 
+     /* color-scheme: light; */
+
+
+     --body-primary-dark: #171726;
+     --hf-color-dark: rgb(33, 33, 55);
+     --text-dark: white;
+     --accent-dark: #a3a2e0;
+     --body-secondary-dark: #282842;
+     --btn-dark: #363658;
+     --input-dark: #171726;
+     --side-nav-dark: rgb(33, 33, 55);
+     --side-nav-hover-dark: rgb(59, 59, 97);
+     --modal-dark: #171726;
+     --pill-dark: #6c6c9d;
+     --btn-hover-dark: rgb(64, 50, 91);
+
+
+     --body-primary-light: #d6d6f5;
+     --hf-color-light: rgb(187, 187, 239);
+     --text-light: black;
+     --accent-light: #a3a2e0;
+     --body-secondary-light: rgba(205, 205, 249, 0.843);
+     --btn-light: #b7b7ed;
+     --input-light: #d6d6f5;
+     --side-nav-light: rgb(187, 187, 239);
+     --side-nav-hover-light: rgb(191, 191, 232);
+     --modal-light: #cccceb;
+     --pill-light: #6c6c9d;
+     --btn-hover-light: rgba(60, 42, 200, 0.544);
+     --side-nav-btn-dark: background-color: rgb(33, 33, 60);
+
+
+     --hf-color: var(--hf-color-light);
+     --body-primary: var(--body-primary-light);
+     --body-secondary: var(--body-secondary-light);
+     --text: var(--text-light);
+     --btn: var(--btn-light);
+     --accent: var(--accent-light);
+     --input: var(--input-light);
+     --side-nav: var(--side-nav-light);
+     --side-nav-hover:  var(--side-nav-hover-light);
+     --modal: var(--modal-light);
+     --pill: var(--pill-light);
+     --btn-hover: var(--btn-hover-light);
+     --side-nav-btn: var(--side-nav-btn-light);
+
+
+
+     /* color-scheme: light dark; */
+
+
+}
+
+/* 
+footer, nav{
+    background-color: rgb(187, 187, 239) !important;
+    color: black !important;
+}
+
+nav a{
+    color: black !important;
 }
 
 body {
-    background-color: var(--color-primary-600);
-    color: var(--color-surface-100);
+   background-color: #d6d6f5 !important;
+   color: black !important;
+}
+body button {
+    background-color: #b7b7ed !important;
+    color: black !important;
+
 }
 
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: var(--color-surface-100) !important;
-        color: var(--color-primary-600) !important;
+body input {
+    background-color: #d6d6f5 !important;
+    color: black !important;
+
+}
+
+.offcanvas{
+    background-color: rgb(187, 187, 239) !important ;
+}
+
+.offcanvas buttton, .offcanvas a, .offcanvas label {
+    background-color: #b7b7ea !important;
+}
+
+.offcanvas-body ul .nav-item a:hover{
+    background-color: rgb(191, 191, 232) !important;
+}
+
+#search-box{
+    background-color: rgba(205, 205, 249, 0.843) !important;
+} 
+
+.modal div div{
+    background-color: #cccceb !important;
+}
+
+body button:hover{
+    background-color: rgba(60, 42, 200, 0.544) !important;
+ }
+
+ .rounded-pill{
+    background: #6c6c9d !important;
+ } */
+
+
+
+ @media (prefers-color-scheme: dark) {
+
+    :root{
+
+        --hf-color: var(--hf-color-dark);
+        --body-primary: var(--body-primary-dark);
+        --body-secondary: var(--body-secondary-dark);
+        --text: var(--text-dark);
+        --btn: var(--btn-dark);
+        --accent: var(--accent-dark);
+        --input: var(--input-dark);
+        --side-nav: var(--side-nav-dark);
+        --side-nav-hover:  var(--side-nav-hover-dark);
+        --modal: var(--modal-dark);
+        --pill: var(--pill-dark);
+        --btn-hover: var(--btn-hover-dark);
+        --side-nav-btn: var(--side-nav-btn-dark);
 
     }
-}
+/* 
+    svg{
+        fill: white !important;
+    }
+
+    footer, nav{
+        background-color: rgb(33, 33, 55) !important;
+        color: whitesmoke !important;
+    }
+
+    nav a{
+        color: white !important;
+    }
+
+    body {
+       background-color: #171726 !important;
+       color: whitesmoke !important;
+    }
+    body button {
+        background-color: #363658 !important;
+    }
+
+    body input {
+        background-color: #171726 !important;
+    }
+
+    #search-box{
+        background-color: #282842 !important;
+    } 
+
+    .modal div div{
+        background-color: #171726 !important;
+    }
+
+    body button:hover{
+        background-color: rgb(64, 50, 91) !important;
+     }
+
+     .offcanvas{
+        background-color: rgb(33, 33, 55) !important ;
+    }
+
+    .offcanvas buttton, .offcanvas a, .offcanvas label {
+        background-color: rgb(33, 33, 60) !important;
+    }
+
+    .offcanvas-body ul .nav-item a:hover{
+        background-color: rgb(59, 59, 97) !important;
+    }
+
+    .rounded-pill{
+        background: #6c6c9d !important;
+     } */
+
+    } 
+
+    /* @media (prefers-color-scheme: light) { */
+
+        svg{
+            fill: var(--text) !important;
+        }
+
+        footer, nav{
+            background-color: var(--hf-color) !important;
+            color: var(--text) !important;
+        }
+    
+        nav a{
+            color: var(--text) !important;
+        }
+    
+        body {
+           background-color: var(--body-primary) !important;
+           color: var(--text) !important;
+        }
+        body button {
+            background-color: var(--btn) !important;
+            color: var(--text) !important;
+
+        }
+    
+        body input {
+            background-color: var(--input) !important;
+            color: var(--text) !important;
+
+        }
+    
+        .offcanvas{
+            background-color: var(--side-nav) !important ;
+        }
+
+        .offcanvas buttton, .offcanvas a, .offcanvas label {
+            background-color: var(--side-nav-btn) !important;
+        }
+
+        .offcanvas-body ul .nav-item a:hover{
+            background-color: var(--side-nav-hover) !important;
+        }
+
+        #search-box{
+            background-color: var(--body-secondary) !important;
+        } 
+    
+        .modal div div{
+            background-color: var(--modal) !important;
+        }
+    
+        body button:hover{
+            background-color: var(--btn-hover) !important;
+         }
+
+         .rounded-pill{
+            background: var(--pill) !important;
+         }
+
+        /* } */
+
+
 
 .flex-center {
     display: flex !important;
@@ -82,7 +314,14 @@ body {
     border-bottom-left-radius: 2%;
     border-left: 1px solid var(--color-surface-300);
     border-bottom: 1px solid var(--color-surface-300);
+    /* border-top: 1px solid var(--color-surface-300); */
 
+
+
+ }
+
+ .job-card:nth-child(1){
+    border-top: 1px solid var(--color-surface-300);
 
  }
 
@@ -130,6 +369,13 @@ body {
     border-bottom: 1px solid var(--color-surface-300);
         border-left: 1px solid var(--color-surface-300);
     border-right: 1px solid var(--color-surface-300);
+    /* border-top: 1px solid var(--color-surface-300); */
+
+ }
+
+ .desc-card:nth-child(1){
+    border-top: 1px solid var(--color-surface-300);
+
  }
 
  .skills-container{
@@ -152,4 +398,34 @@ cursor: pointer;
 }
 
 
- 
+.dark{
+    --hf-color: var(--hf-color-dark);
+    --body-primary: var(--body-primary-dark);
+    --body-secondary: var(--body-secondary-dark);
+    --text: var(--text-dark);
+    --btn: var(--btn-dark);
+    --accent: var(--accent-dark);
+    --input: var(--input-dark);
+    --side-nav: var(--side-nav-dark);
+    --side-nav-hover:  var(--side-nav-hover-dark);
+    --modal: var(--modal-dark);
+    --pill: var(--pill-dark);
+    --btn-hover: var(--btn-hover-dark);
+    --side-nav-btn: var(--side-nav-btn-dark);
+}
+
+.light{
+    --hf-color: var(--hf-color-light);
+    --body-primary: var(--body-primary-light);
+    --body-secondary: var(--body-secondary-light);
+    --text: var(--text-light);
+    --btn: var(--btn-light);
+    --accent: var(--accent-light);
+    --input: var(--input-light);
+    --side-nav: var(--side-nav-light);
+    --side-nav-hover:  var(--side-nav-hover-light);
+    --modal: var(--modal-light);
+    --pill: var(--pill-light);
+    --btn-hover: var(--btn-hover-light);
+    --side-nav-btn: var(--side-nav-btn-light);
+}

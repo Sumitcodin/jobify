@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="color-scheme" content="light dark" /> -->
     <link type="image/png" sizes="96x96" rel="icon"  href="/images/favicon.png">
     <title>Jobify | Sumit Prakash</title>
     <link rel="stylesheet" href="app.css">
@@ -28,12 +29,10 @@
 
 </head>
 
-<body>
-    <nav style="
-    background-color: var(--color-surface-200) !important;
-    " class="navbar navbar-dark bg-dark fixed-top">
+<body style="color-scheme: light !important;">
+    <nav  class="navbar fixed-top">
         <div class="container-fluid" style="max-width: 960px;">
-            <a class="navbar-brand flex align-items-center gap-2" role="button" id="homeBtnNav" >
+            <a class="navbar-brand flex align-items-center gap-2" role="button" id="homeBtnNav" style="font-weight: 600; letter-spacing: 0.12rem;" >
                 <!-- <span class="material-symbols-outlined">
                     work
                   </span> -->
@@ -58,17 +57,16 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDarkNavbar"
                     aria-labelledby="offcanvasDarkNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Jobify</h5>
-                        <button type="button" class="btn-close btn-close-white flex align-items-center justify-content-center" data-bs-dismiss="offcanvas"
-                            aria-label="Close">
-                        
-                            <span class="material-symbols-outlined">
+                        <!-- <button type="button" class="btn-close flex align-items-center justify-content-center" data-bs-dismiss="offcanvas"
+                           > -->
+                            <span class="material-symbols-outlined" role="button" data-bs-dismiss="offcanvas">
                                 left_panel_open
                                 </span>
-                        </button>
+                        <!-- </button> -->
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav flex flex-column justify-content-end flex-grow-1 pe-3">
@@ -123,17 +121,17 @@
                                     Resume Uploaded
                                 </span>
                                 <br>
-                                <a class="btn btn-primary bg-dark" id="view-resume-btn" target="_blank">
+                                <a class="btn btn-primary" id="view-resume-btn" target="_blank">
                                     View 
                                 </a>
-                                <button class="btn btn-primary bg-dark" id="re-upload-resume-btn" >Re-Upload</button>
+                                <button class="btn btn-primary" id="re-upload-resume-btn" >Re-Upload</button>
                                 
                               </div>
                             </div>
                                 <br>
                                 <div>
-                                    <input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-                                    <label class="btn btn-primary bg-dark " for="btn-check"><span class="material-symbols-outlined">
+                                    <!-- <input type="checkbox" id="darkModeToggler" class="btn-check" id="btn-check" autocomplete="off"> -->
+                                    <label id="darkModeToggler" role="button" class="btn btn-primary flex align-items-center w-10 h-10" for="btn-check"><span class="material-symbols-outlined" id="dark-mode-toggle-label">
                                         dark_mode
                                         </span></label>
                                 </div>
@@ -149,7 +147,9 @@
     </nav>
 
     <section id="search">
-        <div class="container-fluid flex flex-column align-items-center justify-content-center" style="max-width: 960px; height: 100px; margin-top: 50px; padding:5px; background-color: var(--color-surface-400);">
+        <div id="search-box" class="container-fluid flex flex-column align-items-center justify-content-center" style="max-width: 960px; height: 100px; margin-top: 50px; padding:5px; 
+        /* background-color: var(--color-surface-400); */
+        ">
             <div class="flex flex-row align-items-center justify-content-around gap-2 p-5" style="width: inherit;">
                 <input class="form-control form-control-sm" type="text" placeholder="Search by title, skill, location or company" aria-label=".form-control-sm example" style="background-color: var(--color-surface-200); color: var(--color-primary-200); border: none;" id="searchInput">
             <button type="button" class="btn btn-secondary  btn-dark btn-sm" style="border: none; background-color: var(--color-surface-100);" id="searchBtn">Search</button>
@@ -514,7 +514,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" id="applyFormModalClose" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary text-bg-dark flex align-items-center gap-2" id="applyNowModalBtn">
+                  <button type="submit" class="btn flex align-items-center gap-2" id="applyNowModalBtn">
                     <span class="material-symbols-outlined">
                     rocket_launch
                     </span>

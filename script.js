@@ -797,7 +797,7 @@ const userSignIn = async() => {
                     track_changes
                     </span>
                 <div class="flex skills-container" id="skills-container-desc">
-                    <span class="badge rounded-pill text-bg-dark">Skills</span>
+                    <span class="badge rounded-pill">Skills</span>
                 </div>
             </div>
 
@@ -837,7 +837,7 @@ const userSignIn = async() => {
             let sikllsContainerDesc = $('skills-container-desc');
             job.skillTags.forEach((skill) => {
                 sikllsContainerDesc.innerHTML += 
-                `<span class="badge rounded-pill text-bg-dark">${skill}</span>`
+                `<span class="badge rounded-pill">${skill}</span>`
             })
 
             let pQual = $('pQual');
@@ -1063,7 +1063,7 @@ $('applyJobForm').addEventListener('submit', event => {
 
             job.skillTags.forEach((skill) => {
                 skillsContainer.innerHTML += 
-                `<span class="badge rounded-pill text-bg-dark">${skill}</span>`
+                `<span class="badge rounded-pill">${skill}</span>`
             })
             console.log('index',index)
 
@@ -1101,6 +1101,81 @@ $('applyJobForm').addEventListener('submit', event => {
 
   }
 
+  const darkModeToggleFunc = (event) => {
+    console.log(event)
+  }
+
+  function load() {
+    const button =  $('darkModeToggler');
+  
+    // MediaQueryList object
+    const useDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    console.log('useDark', useDark);
+  
+    // Toggles the "dark-mode" class based on if the media query matches
+    function toggleDarkMode(state) {
+      // Older browser don't support the second parameter in the
+      // classList.toggle method so you'd need to handle this manually
+      // if you need to support older browsers.
+      document.documentElement.classList.toggle("dark", state);
+      if(state === false){
+        document.documentElement.classList.add("light")
+      }else{
+        document.documentElement.classList.remove("light")
+
+      }
+
+        if(state === false){
+            $('dark-mode-toggle-label').innerHTML = 'light_mode';
+            $('dark-mode-toggle-label').style.color = 'black';
+        }else{
+            $('dark-mode-toggle-label').innerHTML = 'dark_mode';
+            $('dark-mode-toggle-label').style.color = 'white'
+
+
+        }
+        // $('dark-mode-toggle-label').innerHTML = state === false ? 'light_mode' : 'dark_mode';
+
+    }
+  
+    // Initial setting
+    toggleDarkMode(useDark.matches);
+  
+    // Listen for changes in the OS settings
+    useDark.addListener((evt) => toggleDarkMode(evt.matches));
+  
+    // Toggles the "dark-mode" class on click
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+
+      if(!document.documentElement.classList.contains("dark")){
+        document.documentElement.classList.add("light")
+      }else{
+        document.documentElement.classList.remove("light")
+
+      }
+
+      if($('dark-mode-toggle-label').innerHTML === 'light_mode'){
+        $('dark-mode-toggle-label').innerHTML = 'dark_mode';
+        $('dark-mode-toggle-label').style.color = 'white'
+
+      }else{
+        $('dark-mode-toggle-label').innerHTML = 'light_mode';
+        $('dark-mode-toggle-label').style.color = 'black';
+
+
+      }
+    //   $('dark-mode-toggle-label').innerHTML = $('dark-mode-toggle-label').innerHTML === 'light_mode' ? 'dark_mode' : 'light_mode';
+
+
+    });
+  }
+
+  window.addEventListener("DOMContentLoaded", load);
+
+
+//   $('darkModeToggler').addEventListener('click', darkModeToggleFunc);
   const addEventListnerToSaveAndApplyBtn =() => {
     try {
         const bookmarkBtns = document.querySelectorAll('[data-bookmark]');
