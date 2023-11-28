@@ -3,9 +3,10 @@
 
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-  import { getDatabase, ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+  import { getDatabase, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
   import { getFirestore, collection, query, where, doc, getDocs, setDoc, getDoc, addDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+  import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA_1GaZbo6ScKlmxYh8hyjJDLbT-CVOgkM",
@@ -19,6 +20,7 @@
 
     const app = initializeApp(firebaseConfig);
     const database = getFirestore();  
+    const storage = getStorage();
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
@@ -270,6 +272,17 @@ let fetchedUser = {}
                 state._user._data = fetchedUser
             }
         })
+
+        if(state._user._data.resume === true){
+            $('resume-uploaded-container').style.display = 'block';
+            $('resume-upload-container').style.display = 'none';
+            $('view-resume-btn').href = state._user._data.resumeFileMetaData;
+        
+            $('re-upload-resume-btn').addEventListener('click', () => {
+                $('resume-uploaded-container').style.display = 'none';
+                $('resume-upload-container').style.display = 'block';
+            })
+        }
     
     // const unsub = onSnapshot(doc(database, collectionNameForUsersDb, state._user.email), (doc) => {
     //     fetchedUser = { id: doc.id, ...doc.data()};
@@ -416,7 +429,21 @@ const updatedAppliedJobsByUser = async(email, jobId) => {
 }
 
 
+const onCLickOfResumeUpload = (event) => {
+    if(state._userAuthState.isAuth === false) {
+        event.preventDefault()
+        createToast('login', 'Resume Upload', new Date(), 'Please Login to upload Resume', true);
+    }
+}
+
+$('resumeUploadLabel').addEventListener('click', onCLickOfResumeUpload)
+
 const setJobViewStatusByKey = (key) => {
+
+    if(state._userAuthState.isAuth === false && key !== 'initial'){
+        createToast('login','VIew Data', new Date(), 'Please login to view '+ (key === 'save' ? 'saved' : key === 'apply' ? 'applied' : '')+ ' data',true);
+    }else{
+
     let _jobs = state._jobs;
     _jobs.isViaSearch = false;
 
@@ -434,6 +461,7 @@ const setJobViewStatusByKey = (key) => {
     setJobsState(() => {
         state._jobs = _jobs;
     })
+}
 }
 
 $('viewAppliedJobBtn').addEventListener('click', () => {
@@ -489,6 +517,97 @@ const setAndFetchUserDetails = async(email) => {
 
 }
 
+export const fileToBase64 = (filename, filepath) => {
+    return new Promise(resolve => {
+      var file = new File([filename], filepath);
+      var reader = new FileReader();
+      // Read file content on file loaded event
+      reader.onload = function(event) {
+        resolve(event.target.result);
+      };
+      
+      // Convert data to base64 
+      reader.readAsDataURL(file);
+    });
+  };
+
+const uploadResume = async() => {
+
+    let metadata = null;
+    if(state._userAuthState.isAuth === false) {
+        createToast('login', 'Resume Upload', new Date(), 'Please Login to upload Resume', true);
+    }else{
+        let base64File;
+        const file = $('resumeUploadNav').files[0];
+        console.log('file', file)
+        var fileReader = new FileReader();
+        fileReader.onload = function(event) {
+            base64File = event.target.result;
+            let resumeName = "resume_".concat(state._user.email);
+            const storageRef = ref(storage, resumeName);
+            uploadString(storageRef, base64File, 'data_url').then((snapshot) => {
+                console.log('uplaoded a pdf with string,', snapshot)
+                // snapshot.ref.getDownloadURL().then(function(downloadURL){
+                //     console.log('file available at ', downloadURL)
+                //     metadata = downloadURL
+                // })
+               
+
+                return getDownloadURL(snapshot.ref)
+
+            }).then( downloadURL => {
+                console.log('file available at ', downloadURL)
+                metadata = downloadURL;
+                try {
+                    $('view-resume-btn').href = metadata;
+
+                } catch (error) {
+                    
+                }
+                updt();
+            })
+
+            state._user._data.resumePdf = base64File;
+
+        };
+
+        // Convert data to base64
+        fileReader.readAsDataURL(file);
+    }
+
+   const updt = async() => {
+
+       if(metadata !== null) {
+         const userRef = doc(database, collectionNameForUsersDb, state._user.email);
+         
+         console.log('user fdata',metadata)
+         await updateDoc(userRef, {
+             resume: true,
+             resumeFileMetaData:  metadata
+         })
+
+         $('resume-uploaded-container').style.display = 'block';
+         $('resume-upload-container').style.display = 'none';
+     
+     
+         $('re-upload-resume-btn').addEventListener('click', () => {
+             $('resume-uploaded-container').style.display = 'none';
+             $('resume-upload-container').style.display = 'block';
+         })
+       }
+   }
+
+}
+
+$('resumeUploadNav').onchange =() => {
+    console.log('on change handler')
+    uploadResume()
+}
+
+// $('resumeUploadNav').onclick =() => {
+//     console.log('on change handler')
+//     uploadResume()
+// }
 
 
 const userSignIn = async() => {
@@ -550,8 +669,6 @@ const userSignIn = async() => {
         $('logoutBtn').style.display = 'inline';
         $('profilePhoto').style.display = 'inline';
         $('profilePhoto').src = state._user.photoURL;
-
-
 
     }else{
         $('loginBtn').style.display = 'inline';
@@ -797,16 +914,40 @@ const userSignIn = async() => {
         $('applyFormModalClose').click();
   }
 
+  const autoFillForm = () =>{
+    $('applyNowName').value = state._user.name
+    $('applyNowEmail').value = state._user.email
+
+    if(state._user._data.resume === true){
+        $('resumeInForm').innerHTML = '';
+        $('resumeInForm').innerHTML = `
+        <span class="flex flex-row align-items-center gap-1">
+        <span class="material-symbols-outlined">
+                                        cloud_done
+                                        </span>
+        Resume uploaded from profile.!
+        </span>
+        `
+
+    }
+  }
   const applyJob = (event) => {
     if(!state._userAuthState.isAuth){
         createToast('rocket_launch', 'Apply Job', new Date(), 'Please Login to Apply for this Job', true)
     }else{
         $('applyNowModalBtn').dataset.dataJobId = event.target.dataset.jobId;
+    //    setTimeout(()=> {
+    //     console.log('upload resume inside form',$('formFile'))
+
+    //     const file = new File(state._user._data.pdf, 'resume.pdf')
+    //     const dataTransfer = new DataTransfer();
+    //     dataTransfer.items.add(file);
+    //     $('formFile').files = dataTransfer.files;
+    //     // $('formFile').value = state._user._data.pdf;
+    //    }, 1000)
         // applyJobForm(event.target.dataset.jobId);
 
-  console.log($('applyNowModalBtn').onclick)
-
-
+        autoFillForm();
     }
     // console.log(event.target.dataset.isApplied)
   }
@@ -818,8 +959,8 @@ const userSignIn = async() => {
 
 $('applyJobForm').addEventListener('submit', event => {
     event.preventDefault();
-    console.log(event.target[8].dataset.dataJobId)
-    applyJobForm(event.target[8].dataset.dataJobId);
+    console.log(event)
+    applyJobForm(event.submitter.attributes["data-data-job-id"].value);
   })
 
   const renderJobsList = () => {
