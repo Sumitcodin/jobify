@@ -379,7 +379,7 @@ body button:hover{
  }
 
  .skills-container{
-    max-width: 80%;
+    max-width: 100%;
     overflow-x: scroll;
  }
 
