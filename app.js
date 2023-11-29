@@ -5,7 +5,7 @@
 
   import { getDatabase, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
-  import { getFirestore, collection, query, where, doc, getDocs, setDoc, getDoc, addDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+  import { getFirestore, writeBatch, collection, query, where, doc, getDocs, setDoc, getDoc, addDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
   import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 
 var key = "b76x864283b7rztsyvb0x972475bx87tgfd3t54hd8456yu3bd7t34tfbyd2ygd2ty64dtvvcbuywedr36423egd3i7";
@@ -125,8 +125,11 @@ const renderJobView = () => {
 
 
 
-const searchInputChange = (event) => {
-    state._query = event.target.value;    
+const searchInputChange = async(event) => {
+    state._query = event.target.value; 
+    if(event.keyCode === 13){
+       await fetchSearchByQueryJobsData();
+    }   
 }
 
 const fetchSearchByQueryJobsData = async() => {
@@ -296,7 +299,7 @@ let fetchedUser = {}
 
 const fetchInitialJobsData = async() => {
 
-
+    coseSideNav();
 
 // await fetck();
 
@@ -372,8 +375,376 @@ const fetchInitialJobsData = async() => {
 $('homeBtnNav').addEventListener('click', fetchInitialJobsData);
 $('homeBtnMenu').addEventListener('click', fetchInitialJobsData);
 
+const batch = writeBatch(database);
+
+const loadData = async() => {
+
+    var data = [
+        {
+            "aboutCompany": "At IBM, work is more than a job - it's a calling: To build. To design. To code. To consult. To think along with clients and sell. To make markets. To invent. To collaborate. Not just to do something better, but to attempt things you've never thought possible. Are you ready to lead in this new era of technology and solve some of the world's most challenging problems? If so, lets talk.",
+            "expMax": 10,
+            "jobDescription": "AIX is the leading open standards-based UNIX operating system from IBM that provides scalable, secure, and robust infrastructure solution for enterprise customers. As a AIX developer you will be working on new enhancements in RAS features and Performance tool enhancements.",
+            "location": "Bangalore",
+            "preferredQual": [
+                "Minimum 5 years relevant experience in implementing and managing Saviynt IGA solution.",
+                "Knowledge on User Lifecycle Management, Provisioning, Deprovisioning, Reconciliation, Password management, Access Certification, RBAC, SOD, Role Management, Access Request, Delegation, Auditing, Reporting and user activity Monitoring",
+                "Experience in MySQL and Unix Shell/Perl scripting",
+                "Knowledge of Web Services (REST/SOAP), Directories (LDAP, AD), etc."
+            ],
+            "postingDate": {
+                "seconds": 1701234259,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 5,
+            "company": "IBM",
+            "jobName": "AIX DEVELOPER",
+            "skillTags": [
+                "Unix",
+                "HPUX",
+                "AIX",
+                "linux",
+                "solaris",
+                "Spring Boot"
+            ],
+            "requiredQual": [
+                "Design. Implement and Manage Saviynt IGA solution",
+                "Strong knowledge of Saviynt and hands of experience of Saviynt implementation",
+                "Solid understanding of Microsoft Windows Server operating systems, Active Directory, and LDAP Experience with IIS and"
+            ],
+            "jobId": 3
+        },
+        {
+            "aboutCompany": "UST is a global digital transformation solutions provider. For more than 20 years, UST has worked side by side with the world's best companies to make a real impact through transformation. Powered by technology, inspired by people and led by purpose, UST partners with their clients from design to operation. With deep domain expertise and a future-proof philosophy, UST embeds innovation and agility into their clients organizations. With over 30,000 employees in 30 countries, UST builds for boundless impact—touching billions of lives in the process.",
+            "expMax": 7,
+            "jobDescription": "Develop applications in assigned area of responsibility on ERP/CRM systems with minimal guidance from a Lead Developer Contribute to ERP/CRM Practice related activities like (but not limited to) assembling content for case studies contributing to reusability coordinating internal seminars and conduct knowledge sharing sessions organizing sessions during and participating in hackathons etc. ",
+            "location": "Bangalore",
+            "preferredQual": [
+                "Masters Degree with any recognized Institution.",
+                "Working experience in any Intership or a full time position.",
+                "Expertise in Spring Boot along with latest java version."
+            ],
+            "postingDate": {
+                "seconds": 1701147859,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 3,
+            "company": "UST",
+            "jobName": "Developer ||| - Enterprise Solutions",
+            "skillTags": [
+                "DBMS",
+                "Agile",
+                "IDL",
+                "RAD",
+                "Cloud",
+                "SDLC"
+            ],
+            "requiredQual": [
+                "Bachelors Degree from a recognnized university with minimum 70% marks.",
+                "Sound knowledge in any Object Oriented Programming Language",
+                "Hands on working experience with real life usecases."
+            ],
+            "jobId": 4
+        },
+        {
+            "aboutCompany": "Wipro Limited (NYSE: WIT, BSE: 507685, NSE: WIPRO) is a leading technology services and consulting company focused on building innovative solutions that address clients most complex digital transformation needs. Leveraging our holistic portfolio of capabilities in consulting, design, engineering, and operations, we help clients realize their boldest ambitions and build future-ready, sustainable businesses. With nearly 245,000 employees and business partners across 65 countries, we deliver on the promise of helping our clients, colleagues, and communities thrive in an ever-changing world.",
+            "expMax": 5,
+            "jobDescription": "Lead cross global functional teams in developing finance strategies to support a strategic alignment with  company's Business Operations and Corporate departments on company goals & initiatives. Manage financial goals that result in strong customer satisfaction,with company strategy, and optimize costs and supplier relations. Influence senior leaders in setting direction for their functional areas by costs and supplier relations. Influence senior leaders in setting direction for their functional areas bylinking finance and business strategies to optimize business result",
+            "location": "Hyderabad",
+            "preferredQual": [
+                "Masters Degree with any recognized Institution.",
+                "Working experience in any Intership or a full time position.",
+                "Expertise in Spring Boot along with latest java version."
+            ],
+            "postingDate": {
+                "seconds": 1701165859,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 2,
+            "company": "Wipro",
+            "jobName":"Business Analyst",
+            "skillTags": [
+                "Budgeting",
+                "Financial analysis",
+                "Problem solving",
+                "Risk assessment",
+                "Financial planning",
+                "Accounting and cash flow management"
+            ],
+            "requiredQual": [
+                "Bachelors Degree from a recognnized university with minimum 70% marks.",
+                "Sound knowledge in any Object Oriented Programming Language",
+                "Preferably CA with minimum 3-5 years of business finance experience"
+            ],
+            "jobId": 5
+        },
+        {
+            "aboutCompany": "Every company has a mission. What's ours? To empower every person and every organization to achieve more. We believe technology can and should be a force for good and that meaningful innovation contributes to a brighter world in the future and today. Our culture doesnt just encourage curiosity; it embraces it. Each day we make progress together by showing up as our authentic selves. We show up with a learn-it-all mentality. We show up cheering on others, knowing their success doesn't diminish our own. We show up every day open to learning our own biases, changing our behavior, and inviting in differences. Because impact matters.",
+            "expMax": 12,
+            "jobDescription": "Dynamics 365 Finance is one of the fastest growing applications in the Dynamics portfolio  the fastest growing SaaS Enterprise Resource Planning (ERP) portfolio in the world. We specialize in best-in-class solutions enabling businesses to run their end-to-end financial operations for the Dynamics 365 line of ERP software. We aim to enable managers and finance professionals to effectively run their business using the Dynamics 365 products. We have a mission to be the most innovative and trusted solution on the market incorporating the latest in artificial intelligence, automation and integrated analytics leveraging the breadth of Microsoft Azure, Office, Teams, Dynamics and the Power Platform to continually meet the growing needs of businesses in a fast-moving environment.",
+            "location": "Kolkata",
+            "preferredQual": [
+                "Excellent communication, collaboration, and problem-solving skills.", 
+    "Ability to work independently and as part of a team in a fast-paced and dynamic environment. ",
+    "Passion for learning new skills and technologies and sharing them with others. "
+            ],
+            "postingDate": {
+                "seconds": 1701252259,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 8,
+            "company": "Microsoft",
+            "jobName": " Sr. Project Manager",
+            "skillTags": [
+                "Technical skills",
+                "Roadmapping",
+                "Communication skills",
+                "Forecasting",
+                "Data analytics",
+                "Reaserch skills"
+            ],
+            "requiredQual": [
+                "Bachelor's Degree in Computer Science, or related technical discipline AND 4+ years technical engineering experience with coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, or Python OR equivalent experience. ",
+                "Background on .NET Core and Framework would be an added advantage." ,
+    "Experience on Databases like Cosmos/CDS services would be preferred. "
+            ],
+            "jobId": 6
+        },
+        {
+            "aboutCompany": "A part of the Tata group, India's largest multinational business group, TCS has over 500,000 of the world's best-trained consultants in 46 countries. The company generated consolidated revenues of US $22.2 billion in the fiscal year ended March 31, 2021, and is listed on the BSE (formerly Bombay Stock Exchange) and the NSE (National Stock Exchange) in India.",
+            "expMax": 10,
+            "jobDescription": "TCS has been a great pioneer in feeding the fire of young techies like you. We are a global leader in the technology arena and there's nothing that can stop us from growing together.",
+            "location": "new delhi",
+            "preferredQual": [
+               "Proficiency in scripting languages (e.g., JavaScript, Groovy, Powershell) for customization and automation.",
+                "Understanding of security standards such as OAuth, open ID Connect, SAML and LDAP.",
+                "Excellent problem -solving and troubleshooting skills.","Strong communication and teamwork abilities."
+            ],
+            "postingDate": {
+                "seconds": 1701079459,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 7,
+            "company": "TCS",
+            "jobName": "Power BI Analyst",
+            "skillTags": [
+                "SIT",
+                "UAT support",
+                "Hypercare support",
+                "CRM",
+                "Key user training",
+                "Functional testing"
+            ],
+            "requiredQual": [
+               " Bachelor's degree in Computer science, Information Technology or a related field.",
+    "Proven experience in implementing ForgeRock IDM solutions.",
+    "Strong knowledge of identity and access management concepts and best practices"
+            ],
+            "jobId": 7
+        },
+        {
+            "aboutCompany": "KPMG entities in India are established under the laws of India and are owned and managed (as the case may be) by established Indian professionals. Established in September 1993, the KPMG entities have rapidly built a significant competitive presence in the country. Today we operate from offices across 14 cities including in Ahmedabad, Bengaluru, Chandigarh, Chennai, Gurugram, Hyderabad, Jaipur, Kochi, Kolkata, Mumbai, Noida, Pune, Vadodara and Vijayawada.",
+            "expMax": 6,
+            "jobDescription": "KPMG entities in India are professional services firm(s). These Indian member firms are affiliated with KPMG International Limited. KPMG was established in India in August 1993. Our professionals leverage the global network of firms, and are conversant with local laws, regulations, markets and competition. KPMG has offices across India in Ahmedabad, Bengaluru, Chandigarh, Chennai, Gurugram, Hyderabad, Jaipur, Kochi, Kolkata, Mumbai, Noida, Pune, Vadodara and Vijayawada.",
+            "location": "chandigarh",
+            "preferredQual": [
+                "Possess solid creative, social and web knowledge, consistently bringing innovative solutions and delivering client service excellence.",
+    "Excellent production skills, proper file setup and style sheet builds."
+            ],
+            "postingDate": {
+                "seconds": 1700993059,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 3,
+            "company": "KPMG India",
+            "jobName": "Consultant - SIAM SIAM",
+            "skillTags": [
+                "SIAM",
+                "ITIL V4",
+                "E2E",
+                "MS Office",
+                "professionalism",
+                "InDesign",
+                "Illustrator",
+                "Photoshop"
+            ],
+            "requiredQual": [
+                "Minimum 5-8 years of design experience in conceptualization, solution development, campaign execution and client relationship management.",
+                "A strong portfolio showcasing a range of complex visualizations and the ability to explain the thought process behind them."
+    
+            ],
+            "jobId": 8
+        },
+        {
+            "aboutCompany": "IBM greatest invention is the IBMer. We believe that through the application of intelligence, reason and science, we can improve business, society and the human condition, bringing the power of an open hybrid cloud and AI strategy to life for our clients and partners around the world.Restlessly reinventing since 1911, we are not only one of the largest corporate organizations in the world, were also one of the biggest technology and consulting employers, with many of the Fortune 50 companies relying on the IBM Cloud to run their business. At IBM, we pride ourselves on being an early adopter of artificial intelligence, quantum computing and blockchain. Now its  time for you to join us on our journey to being a responsible technology innovator and a force for good in the world. ",
+            "expMax": 6,
+            "jobDescription": " At IBM, work is more than a job - it's a calling: To build. To design. To code. To consult. To think along with clients and sell. To make markets. To invent. To collaborate. Not just to do something better, but to attempt things you've never thought possible. Are you ready to lead in this new era of technology and solve some of the world's most challenging problems? If so, lets talK",
+            "location": "Pune",
+            "preferredQual": [
+                "Good working knowledge on Windows, UNIX.",
+    "Experience of writing code to target high performance server and client-side environments.",
+    "Familiarity with UI Test Case Automation like Selenium, Jenkins.",
+    "Knowledge on addressing Security Vulnerabilities.",
+    "Knowledge on Cluster Environments with large scale applications, load balancers.",
+    "Good working knowledge on the following areas will be added advantage: Continuous Integration: Jenkins",
+    "Protocols/Specification and Languages: Http, JSON, XML, JavaScript/HTML5/CSS, DOJO"
+            ],
+            "postingDate": {
+                "seconds": 1701252259,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 3,
+            "company": "IBM",
+            "jobName": "Full Stack Developer",
+            "skillTags": [
+                "IBM’s Cloud",
+                "UNIX",
+                "GraphQL",
+                "Microservices",
+                "WatsonX/AI",
+                "Spring Boot"
+            ],
+            "requiredQual": [
+                "3 + years of industry experience",
+    "Front-end: Javascript, HTML, CSS, ReactJS, NodeJS",
+    "Backend: Python, Java, GraphQL, Java/J2EE, REST, Docker, Linux"
+    
+            ],
+            "jobId": 9
+        },
+        {
+            "aboutCompany": "Capgemini is a global leader in partnering with companies to transform and manage their business by harnessing the power of technology. The Group is guided everyday by its purpose of unleashing human energy through technology for an inclusive and sustainable future. It is a responsible and diverse organization of 350,000 team members in more than 50 countries. With its strong 55-year heritage and deep industry expertise, Capgemini is trusted by its clients to address the entire breadth of their business needs, from strategy and design to operations, fueled by the fast evolving and innovative world of cloud, data, AI, connectivity, software, digital engineering and platforms. The Group reported in 2022 global revenues of €22 billion.",
+            "expMax": 3,
+            "jobDescription": "Producing high quality code without much supervision and on-time delivery troubleshooting, diagnosing resolving customer issues independently Prepare solution design documents and develop framework for automation scripting-based processes., ",
+            "location": "Pune",
+            "preferredQual": [
+                "Masters Degree with any recognized Institution.",
+                "Working experience in any Intership or a full time position.",
+                "Expertise in Spring Boot along with latest java version."
+            ],
+            "postingDate": {
+                "seconds": 1701165859,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 0,
+            "company": "Capgemini",
+            "jobName": "Devops Engineer",
+            "skillTags": [
+                "Cloud",
+                "DevOps",
+                "Splunk",
+                "Microservices",
+                "Cloud",
+                "Zookeeper"
+            ],
+            "requiredQual": [
+                "Bachelors Degree from a recognnized university with minimum 70% marks.",
+                "Sound knowledge in any Object Oriented Programming Language",
+                "Hands on working experience with real life usecases."
+            ],
+            "jobId": 10
+        },
+        {
+            "aboutCompany": "Tata Steel has been a part of the DJSI Emerging Markets Index since 2012 and has been consistently ranked amongst top 5 steel companies in the DJSI Corporate Sustainability Assessment since 2016. Besides being a member of ResponsibleSteelTM and worldsteel's Climate Action Programme, Tata Steel has won several awards and recognitions including the World Economic Forum's Global Lighthouse recognition for its Kalinganagar Plant - a first in India, and Prime Ministers Trophy for the best performing integrated steel plant for 2016-17. The Company, ranked as India's most valuable Metals & Mining brand by Brand Finance, received the Honourable Mention at the National CSR Awards 2019, Steel Sustainability Champion 2019 by worldsteel, CII Greenco Star Performer Award 2019,Most Ethical Company award 2020 from Ethisphere Institute, Best Risk Management Framework & Systems Award (2020) by CNBC TV-18, and Award for Excellence in Financial Reporting FY20 by ICAI, among several others.",
+            "expMax": 10,
+            "jobDescription": "o investigate cases of ethical misconduct, especially through digital forensic investigation, identify internal control gaps in business processes and systems that provide scope for malpractices, proactive studies to identify ethical concerns, and organize vigilance awareness programs. Work as the IT resource for the Vigilance Department.",
+            "location": "Jamshedpur",
+            "preferredQual": [
+                "Masters Degree with any recognized Institution.",
+                "Working experience in any Intership or a full time position.",
+                "Expertise in Spring Boot along with latest java version."
+            ],
+            "postingDate": {
+                "seconds": 1700993059,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 7,
+            "company": "TATA steel",
+            "jobName": "Area Manager ",
+            "skillTags": [
+                "Team building",
+                "Leadership",
+                "Domain knowledge",
+                "Good orgnization",
+                "Communication skills",
+                "Area mangement"
+            ],
+            "requiredQual": [
+                "Bachelors Degree from a recognnized university with minimum 70% marks.",
+                "Sound knowledge in any Object Oriented Programming Language",
+                "Hands on working experience with real life usecases."
+            ],
+            "jobId": 11
+        },
+        {
+            "aboutCompany": "Amazon drives progress. Our firms around the world help clients become leaders wherever they choose to compete. Amazon invests in outstanding people of diverse talents and backgrounds and empowers them to achieve more than they could elsewhere. Our work combines advice with action and integrity. We believe that when our clients and society are stronger, so are we.  Amazon refers to one or more of Amazon Touche Tohmatsu Limited (“DTTL”), its global network of member firms, and their related entities. DTTL (also referred to as “Amazon Global”) and each of its member firms are legally separate and independent entities. DTTL does not provide services to clients. Please see www.Amazon.com/about to learn more.",
+            "expMax": 7,
+            "jobDescription": "Independently develops error free code with high quality validation of applications guides other developers and assists Lead 1 - Software Engineering",
+            "location": "Hyderabad",
+            "preferredQual": [
+               "Experience working within software development or Internet-related industries.",
+                "Experience migrating or transforming legacy customer solutions to the cloud",
+                "Experience working with AWS technologies from a dev/ops perspective"
+            ],
+            "postingDate": {
+                "seconds": 1701079459,
+                "nanoseconds": 596000000
+            },
+            "isFeatured": true,
+            "length": "Full time",
+            "expMin": 3,
+            "company": "Amazon",
+            "jobName": "Application Architect",
+            "skillTags": [
+                "Cloud",
+                "Lamda",
+                "Networking",
+                "Microservices",
+                "System Design",
+                "Dev/Ops"
+            ],
+            "requiredQual": [
+                "7+ years of specific technology domain areas (e.g. software development, cloud computing, systems engineering, infrastructure, security, networking, data & analytics) experience.",
+    " 4+ years of design, implementation, or consulting in applications and infrastructures experience",
+    " 10+ years of IT development or implementation/consulting in the software or Internet industries experience"
+            ],
+            "jobId": 12
+        }
+    ]
+
+
+
+
+    data.forEach( async(d) => {
+        let jobId = "JOBID000".concat(d.jobId.toString());
+        await setDoc(doc(database, "jobs", jobId), d)
+    })
+
+
+    
+}
 
 const onInit = async() => {
+
+
+    // await loadData();
 
     let _jobs_cache = localStorage.getItem('jobs')
     if(_jobs_cache !== null){
@@ -467,11 +838,14 @@ const setJobViewStatusByKey = (key) => {
 }
 
 $('viewAppliedJobBtn').addEventListener('click', () => {
-    setJobViewStatusByKey('apply')
+    setJobViewStatusByKey('apply');
+    coseSideNav();
 })
 
 $('viewSavedJobBtn').addEventListener('click', () => {
     setJobViewStatusByKey('save')
+    coseSideNav();
+
 })
 
 
@@ -513,11 +887,19 @@ const setAndFetchUserDetails = async(email) => {
         // })
        
         state._user._data = fetchedUser;
+        checkIfResumeUploadedOnLoginLogout();
 
         // console.log('after setAndFetchUserDetails()',state)
 
 
 }
+
+export const coseSideNav = () => {
+try {
+    $('close-nav-bar').click();
+} catch (error) {
+    
+}}
 
 export const fileToBase64 = (filename, filepath) => {
     return new Promise(resolve => {
@@ -592,7 +974,6 @@ const uploadResume = async() => {
          $('resume-uploaded-container').style.display = 'block';
          $('resume-upload-container').style.display = 'none';
      
-     
          $('re-upload-resume-btn').addEventListener('click', () => {
              $('resume-uploaded-container').style.display = 'none';
              $('resume-upload-container').style.display = 'block';
@@ -612,6 +993,37 @@ $('resumeUploadNav').onchange =() => {
 //     uploadResume()
 // }
 
+const checkIfResumeUploadedOnLoginLogout = () =>{
+
+    try {
+        
+        if(state._userAuthState.isAuth === true){
+            if(state._user._data.resume === true){
+                $('resume-uploaded-container').style.display = 'block';
+                $('resume-upload-container').style.display = 'none';
+        
+                $('re-upload-resume-btn').addEventListener('click', () => {
+                    $('resume-uploaded-container').style.display = 'none';
+                    $('resume-upload-container').style.display = 'block';
+                })
+        
+            }else{
+                $('resume-uploaded-container').style.display = 'none';
+                $('resume-upload-container').style.display = 'block';
+            }
+        }
+        else{
+
+            $('resume-uploaded-container').style.display = 'none';
+            $('resume-upload-container').style.display = 'block';
+        }
+
+      
+    } catch (error) {
+        
+    }
+
+}
 
 const userSignIn = async() => {
     // console.log("sign in clicked");
@@ -620,6 +1032,7 @@ const userSignIn = async() => {
         const user = result.user
         createToast('login', 'Login', new Date(), user.displayName + ' logged in successfully!', true );
         setAndFetchUserDetails(user.email)
+        // checkIfResumeUploadedOnLoginLogout();
     }).catch((error)=> {
         createToast('login', 'Login', new Date(), error.message, true)
     })
@@ -631,9 +1044,12 @@ const userSignIn = async() => {
         createToast('logout', 'Logout', new Date(), state._user.name + ' logged out successfully!', true );
         localStorage.clear();
         setJobViewStatusByKey('initial')
+        coseSideNav();
+    checkIfResumeUploadedOnLoginLogout();
     }).catch((error) => {
         createToast('logout', 'Logout', new Date(), error.message, true)
     }) 
+
   }
 
   onAuthStateChanged(auth, (user) => {
@@ -658,6 +1074,8 @@ const userSignIn = async() => {
         newAuthState.showProfilePic = false;
         newAuthState.showLogoutBtn = false;  
     }
+
+    // checkIfResumeUploadedOnLoginLogout();
 
     setAuthState(() => {
         state._userAuthState = newAuthState
@@ -798,7 +1216,7 @@ const userSignIn = async() => {
                     track_changes
                     </span>
                 <div class="flex skills-container" id="skills-container-desc">
-                    <span class="badge rounded-pill">Skills</span>
+                    <span class="badge rounded-pill"></span>
                 </div>
             </div>
 

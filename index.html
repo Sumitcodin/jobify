@@ -63,7 +63,7 @@
                         <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Jobify</h5>
                         <!-- <button type="button" class="btn-close flex align-items-center justify-content-center" data-bs-dismiss="offcanvas"
                            > -->
-                            <span class="material-symbols-outlined" role="button" data-bs-dismiss="offcanvas">
+                            <span class="material-symbols-outlined" role="button" data-bs-dismiss="offcanvas" id="close-nav-bar">
                                 left_panel_open
                                 </span>
                         <!-- </button> -->
@@ -498,7 +498,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Zipcode</label>
-                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Zipcode">
+                        <input required type="text" pattern="\\d{1,7}" class="form-control" id="exampleFormControlInput1" placeholder="Zipcode">
                       </div>
                      </div>
                      <div class="mb-3" id="resumeInForm">
