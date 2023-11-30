@@ -297,9 +297,24 @@ let fetchedUser = {}
 
     }
 
+    const showHideMainLoader = (ctx) => {
+        if(ctx === 0){
+            $('mainLoader').style.display ="none";
+            $('jobs-container').style.alignItems = "start";
+            $('jobs-container').style.justifyContent = "start";
+        }else if(ctx === 1){
+
+            $('mainLoader').style.display ="inline";
+            $('jobs-container').style.alignItems = "center";
+            $('jobs-container').style.justifyContent = "center";
+
+        }
+    }
 const fetchInitialJobsData = async() => {
 
     coseSideNav();
+
+    // showHideMainLoader(1);
 
 // await fetck();
 
@@ -375,7 +390,7 @@ const fetchInitialJobsData = async() => {
 $('homeBtnNav').addEventListener('click', fetchInitialJobsData);
 $('homeBtnMenu').addEventListener('click', fetchInitialJobsData);
 
-const batch = writeBatch(database);
+// const batch = writeBatch(database);
 
 const loadData = async() => {
 
@@ -921,6 +936,9 @@ const uploadResume = async() => {
     if(state._userAuthState.isAuth === false) {
         createToast('login', 'Resume Upload', new Date(), 'Please Login to upload Resume', true);
     }else{
+        $('resumeUploadLoader').style.display = 'block';
+        $('resume-upload-container').style.display = 'none';
+
         let base64File;
         const file = $('resumeUploadNav').files[0];
         // console.log('file', file)
@@ -952,6 +970,8 @@ const uploadResume = async() => {
             })
 
             state._user._data.resumePdf = base64File;
+        $('resumeUploadLoader').style.display = 'block';
+
 
         };
 
@@ -969,6 +989,8 @@ const uploadResume = async() => {
              resume: true,
              resumeFileMetaData:  metadata
          })
+        $('resumeUploadLoader').style.display = 'none';
+
          createToast('cloud_done', 'Resume Upload', new Date(), 'Your resume has been uploaded!',true)
 
          $('resume-uploaded-container').style.display = 'block';
@@ -1060,6 +1082,7 @@ const userSignIn = async() => {
         newAuthState.showLoginBtn = false;
         newAuthState.showProfilePic = true;
         newAuthState.showLogoutBtn = true;
+        newAuthState.showLoginLoader = false;
 
         let _user = {};
         _user.name = user.displayName;
@@ -1073,6 +1096,8 @@ const userSignIn = async() => {
         newAuthState.showLoginBtn = true;
         newAuthState.showProfilePic = false;
         newAuthState.showLogoutBtn = false;  
+        newAuthState.showLoginLoader = true;
+
     }
 
     // checkIfResumeUploadedOnLoginLogout();
@@ -1089,12 +1114,14 @@ const userSignIn = async() => {
         $('loginBtn').style.display = 'none';
         $('logoutBtn').style.display = 'inline';
         $('profilePhoto').style.display = 'inline';
+        $('loginBtnLoader').style.display = 'none';
         $('profilePhoto').src = state._user.photoURL;
 
     }else{
         $('loginBtn').style.display = 'inline';
         $('logoutBtn').style.display = 'none';
         $('profilePhoto').style.display = 'none';
+        $('loginBtnLoader').style.display = 'none';
         $('profilePhoto').src = '';
 
 
@@ -1386,7 +1413,8 @@ $('applyJobForm').addEventListener('submit', event => {
 
   const renderJobsList = () => {
 
-    // console.log("render Jobs called", state)
+        // showHideMainLoader(0);
+        // console.log("render Jobs called", state)
     let jl = $('jl');
     jl.innerHTML = '';
     let jobsData = state._jobs.data;
@@ -1491,6 +1519,7 @@ $('applyJobForm').addEventListener('submit', event => {
             }
 
         })
+
 
         // $('expand_jd')?.addEventListener('click', toggleJobView);
         // $('collapse_jd')?.addEventListener('click', toggleJobView);
